@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
+	<script type="text/javascript" src="./socket.js"> </script>
+	<script type="text/javascript" src="./sensor_draw.js"> </script>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+  </head>
+  <body>
+    <div id='message'> test </div>
+	<canvas id="map" width="600" height="600"></canvas>
+	<canvas id="power" width="200" height="50"></canvas>
+	<canvas id="upright" width="200" height="50"></canvas>
+	<canvas id="failure" width="200" height="50"></canvas>
+	
+    <!--textarea id="text"></textarea-->
+    <script> 
+		/*var socket = io.connect();
+		var ctx = document.getElementById("map").getContext('2d');
+		ctx.fillStyle="black";
+		ctx.strokeRect(0, 0, 400, 600);
+		ctx.fillRect(50,50,300,500);
+		socket.on('message', function(data){
+			//console.log(data.message);
+			mqtt=JSON.parse(data.message);
+			//console.log(typeof mqtt.sensor_data);
+			var msg=document.getElementById("message");
+			msg.innerText=mqtt.sensor_data;
+			//msg.innerText=data.message;
+		});*/
+		socket_load();
+    </script>
+
+  </body>
+</html>
