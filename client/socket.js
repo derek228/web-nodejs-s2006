@@ -10,9 +10,6 @@ function socket_load() {
 			if (mqtt.failure_code=== 0) {
 				power_failure_show(mqtt);
 			}
-			else {
-				normal_show(mqtt);
-			}
 		}
 		else {
 			normal_show(mqtt);
@@ -37,4 +34,8 @@ function normal_show(data) {
 	upright(mqtt.sensor_data[26]);
 	falling(mqtt.falling_risk);
 	power_failure(0);	
+	position(mqtt.status);
+	envelopment(mqtt.envelopment_rate);
+	mattress(mqtt.mattress_id);
+	reposition(mqtt.reposition_time);
 }

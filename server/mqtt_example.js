@@ -8,10 +8,11 @@ s2006_mqtt.init=function(ip) {
 	
 	var opt = { 
 	port:1883,
-	clientID: 'derekNB'
+	clientID: 'derekNB',
+	username:'ZDlhN2E4MjgwNTY4',
+	password:'NDg5YWQyYTAyYTg3ZGIyZGExMTgzNTc0'
 	};
 	
-	//client = mqtt.connect('mqtt://192.168.100.41', opt);
 	console.log("mqtt intt ip :"+ip);
 	if (ip) {
 		console.log("MQTT Server Connect to =="+ip);

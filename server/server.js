@@ -9,22 +9,9 @@ var client=null;
 var addr=null;
 var filterMAC='';
 var server = http.createServer(function(request, response) {
-  //var data= Buffer.from(request).toString('binary');
-  //console.log('Connection:  '+ data);
-  //console.log(request.url);
-  //console.log(request.method);
-  //console.log(request.statusMessage);
-  //console.log("Code:  " + request.statusCode);
 
   var myURL= new URL("http://localhost:8001"+request.url);
-//  console.log(URL.method);
-//  console.log(URL.host);
-//  console.log(URL.hostname);
-//  console.log(URL.href);
-//  console.log(URL.port);
-//  console.log(URL.statusMessage);
   var path =myURL.pathname;
-  //var path = url.parse(request.url).pathname;
   console.log(__dirname + path);
   switch (path) {
     case '/':
@@ -36,7 +23,7 @@ var server = http.createServer(function(request, response) {
       case '/client/socket.html':
        if (request.method==='GET') {
          addr = myURL.searchParams.get('addr');
-         filterMAC=myURL.searchParams.get('mac');
+         mac=myURL.searchParams.get('mac');
          if (addr) {
           console.log('MQTT IP :' + addr);
           addr = "mqtt://"+addr;
@@ -44,7 +31,8 @@ var server = http.createServer(function(request, response) {
           client = null;
           client=s2006_mqtt.init(addr);
          }
-         if (filterMAC) {
+         if (mac) {
+          filterMAC=mac;
            console.log('MAC : '+filterMAC)
          }
         
@@ -81,32 +69,13 @@ io.attach(server,{
 console.log("Server set listen 8001");
 server.listen(8001);
 console.log(addr);
-//client = s2006_mqtt.init();
 s2006_mqtt.init();
-//client.on('connect', function() {
-/*s2006_mqtt.client().on('connect', function() {
-	console.log("MQTT connected...");
-	client.subscribe('S2006/DeviceReportInformation');
-});
-s2006_mqtt.client().on('close',function() {
-  console.log("Force close mqtt");
-  client=s2006_mqtt.init(addr);
-});
-*/
 
 io.on('connection',(socket) => {
-	//console.log(socket.rooms);
-	//console.log(socket.id);
-//  client.on('message', function(topic, msg) {
   s2006_mqtt.client().on('message', function(topic, msg) {
   data = AESCrypt.decrypt(msg);
     json=JSON.parse(data);
     if (filterMAC) {
-      //console.log(json.mac_address);
-      //console.log(filterMAC);
-      //console.log(Buffer.from(json.mac_address));
-      //console.log(Buffer.from(filterMAC));
-//      if  (Buffer.compare(Buffer.from(json.mac_address), Buffer.from(filterMAC))===0){
       if  (json.mac_address == filterMAC){
       console.log('======================= Get Sensor Data From MQTT '+filterMAC+'=========================' + data.length);
       socket.emit('message', {'message': data});
@@ -120,7 +89,5 @@ io.on('connection',(socket) => {
       console.log("No define S2006 MAC==="+data );
     }
     //socket.emit('message', {'message': data});
-
   });
- 
 });

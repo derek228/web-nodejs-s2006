@@ -110,13 +110,8 @@ function createMap() {
 		w = mapW*sensor_pos[i*2] + map_boundary;
 		h = mapH*sensor_pos[i*2+1] + map_boundary;
 		console.log('w='+w+"  h="+h);
-		//ctx.fillStyle=getColor(sensor[i]);
-		//ctx.strokeRect(w, h, idW, idH);
-		//ctx.fillRect(w, h, idW, idH);
 		ctx.font = "48px Times New Roman";
-		//ctx.translate(w, h);
 		ctx.fillStyle = getColor(sensor[i]);//"white";
-		//ctx.strokeText(sensor[i], w, h);
 		ctx.fillText(sensor[i], w, h);
 	}
 }
@@ -137,14 +132,7 @@ function getColor(dist) {
 		return 'black';
 }
 function sensorUpdate(sensor) {
-	//console.log(sensor_mux[0][2]);
-	//console.log(sensor_dist_map[9][2]);
-	//remap(sensor);
-	//console.log(sensor_dist_map);
 	var ctx = document.getElementById("map").getContext('2d');
-	//ctx.fillStyle="black";
-	//ctx.strokeRect(0, 0, canvas_width, canvas_height);
-	//ctx.fillRect(0,0,canvas_width,canvas_height);
 	var w=0;
 	var h=0;
 	for (i=0;i<26;i++) {
@@ -158,7 +146,6 @@ function sensorUpdate(sensor) {
 	}
 }
 function sensorUpdate_color(sensor) {
-	//create_map();
 	remap(sensor);
 	var ctx = document.getElementById("map").getContext('2d');
 	ctx.fillStyle="black";
@@ -167,8 +154,6 @@ function sensorUpdate_color(sensor) {
 	var w=0;
 	var h=0;
 	var lingrad = ctx.createLinearGradient(0,0,0,0);
-//	for (i=0;i<10;i++) {
-//		for (j=0;j<5;j++) {
 	for (i=0;i<10;i++) {
 		for (j=0;j<5;j++) {
 			start_color = getColor(sensor_dist_map[i][j]);
@@ -195,45 +180,105 @@ function sensorUpdate_color(sensor) {
 		}
 	}
 }
+function position(val) {
+	var ctx = document.getElementById("position");
+	switch (val) {
+		case 0: //flat
+		ctx.innerHTML="FLAT";
+		ctx.style.backgroundColor="green";
+		break;
+		case 1: // side
+		ctx.innerHTML="SIDE";
+		ctx.style.backgroundColor=" #BA4A00";
+		break;
+		case 2: // sit
+		ctx.innerHTML="SIT";
+		ctx.style.backgroundColor="#3498DB";
+		break;
+		case 3: // empty
+		ctx.innerHTML="EMPTY";
+		ctx.style.backgroundColor="gray";
+		break;
+		default:
+			console.log("unkonw position value"+val);
+			break;
+	}	
+}
+function envelopment(val) {
+	var ctx = document.getElementById("envelop");
+	ctx.innerHTML=val;
+	//ctx.style.backgroundColor="black";
+}
 function upright(val) {
-	var ctx = document.getElementById("map").getContext('2d');
-	ctx.fillStyle="white";
-	//ctx.strokeRect(400, 100, 200, 50);
-	ctx.fillRect(400,100,200,50);
-	ctx.font = "48px Times New Roman";
-	ctx.fillStyle =  'black';//getColor(sensor[i]);
-	ctx.fillText("Angle:", 400, 150);
-	ctx.fillText(val, 550, 150);
-	//console.log("show upright");
+	var ctx = document.getElementById("upright");
+	ctx.innerHTML=val;
+	//ctx.style.backgroundColor="black";
 }
 function power_failure(failure) {
-	var ctx = document.getElementById("map").getContext('2d');
+	var ctx = document.getElementById("power");
 	if (failure) {
-		ctx.fillStyle="red";
+		ctx.innerHTML="Failure";
+		ctx.style.backgroundColor="red";
 	}
 	else {
-		ctx.fillStyle="green";
+		ctx.innerHTML="On";
+		ctx.style.backgroundColor="#1D8348";
 	}
-	//
-	ctx.fillRect(400,0,50,50);
-	ctx.font = "48px Times New Roman";
-	ctx.fillStyle =  'black';//getColor(sensor[i]);
-	ctx.fillText("Power", 450, 50);
-	//console.log("show power faliure")
 }
 function falling(val) {
-	var ctx = document.getElementById("map").getContext('2d');
-	ctx.fillStyle="white";
-	ctx.fillRect(400,200,200,50);
-	if (val>=50) {
-		ctx.fillStyle="red";
+	var ctx = document.getElementById("falling");
+	ctx.innerHTML=val;//str;
+	if (val >=50) {
+		ctx.style.backgroundColor='red';
 	}
 	else {
-		ctx.fillStyle="green";
+		ctx.style.backgroundColor='#21618C';
 	}
-	ctx.fillRect(400,200,50,50);
-	ctx.font = "48px Times New Roman";
-	ctx.fillStyle =  'black';//getColor(sensor[i]);
-	ctx.fillText(val, 450, 250);
-	//console.log("show falling");	
+}
+function mattress(id) {
+	var ctx = document.getElementById("mattress");
+
+	switch(id) {
+		case 0:
+			ctx.innerHTML="FIT 82x200";
+			break;
+		case 1:
+			ctx.innerHTML="FIT 90x200";
+			break;
+		case 2:
+			ctx.innerHTML="FIT 107x200";
+			break;
+		case 4:
+			ctx.innerHTML="Entril Lux 82x200";
+			break;
+		case 5:
+			ctx.innerHTML="Entril Lux 82x200";
+			break;
+		case 6:
+			ctx.innerHTML="Entril Lux 82x200";
+			break;
+		case 8:
+			ctx.innerHTML="Dual Plus 82x200";
+			break;
+		case 9:
+			ctx.innerHTML="Dual Plus 82x200";
+			break;
+		case 10:
+			ctx.innerHTML="Dual Plus 82x200";
+			break;
+		default :
+			ctx.innerHTML="UNKNOW";
+			break;
+	}
+}
+
+function reposition(val) {
+	var ctx = document.getElementById("reposition");
+	ctx.innerHTML=val;
+	if (val >=2) {
+		ctx.style.backgroundColor='red';
+	}
+	else {
+		ctx.style.backgroundColor='green';
+	}
 }
