@@ -119,13 +119,13 @@ function getColor(dist) {
 	if (dist>=110) 
 		return 'black';
 	else if (dist>=85)
-		return color_amber;
+		return "#8a591a";//color_amber;
 	else if (dist>=75)
-		return color_yellow;
+		return "#b0a425";//color_yellow;
 	else if (dist>=65)
-		return color_green;
+		return "#186330";//color_green;
 	else if (dist>=45)
-		return color_blue;
+		return "#294891";//color_blue;
 	else if (dist >=30)
 		return 'red';
 	else
@@ -153,7 +153,7 @@ function sensorUpdate_color(sensor) {
 	ctx.fillRect(0,0,canvas_width,canvas_height);
 	var w=0;
 	var h=0;
-	var lingrad = ctx.createLinearGradient(0,0,0,0);
+	//var lingrad = ctx.createLinearGradient(0,0,0,0);
 	for (i=0;i<10;i++) {
 		for (j=0;j<5;j++) {
 			start_color = getColor(sensor_dist_map[i][j]);
@@ -225,13 +225,29 @@ function power_failure(failure) {
 		ctx.style.backgroundColor="#1D8348";
 	}
 }
+var fallcnt=0;
 function falling(val) {
 	var ctx = document.getElementById("falling");
 	ctx.innerHTML=val;//str;
 	if (val >=50) {
+		if (fallcnt===0) {
+			fallcnt = fallcnt+1;
+		const audio = document.getElementById("fall");
+		audio.currentTime=0;
+		audio.muted=false;
+		//audio.src=path;
+		audio.play();
+		}
+		else {
+			fallcnt=fallcnt+1;
+			if (fallcnt>=6) {
+				fallcnt=0;
+			}
+		}
 		ctx.style.backgroundColor='red';
 	}
 	else {
+		fallcnt = 0;
 		ctx.style.backgroundColor='#21618C';
 	}
 }

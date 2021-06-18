@@ -41,6 +41,10 @@ var server = http.createServer(function(request, response) {
       case '/client/socket.js':
       case '/client/sensor_draw.js':
       case '/client/main.css':
+      case '/client/bye.mp3':
+      case '/client/hello.mp3':
+      case '/client/falling.mp3':
+    
       fs.readFile(__dirname +"/../"+ path, function(error, data) {
         if (error){
           response.writeHead(404);
