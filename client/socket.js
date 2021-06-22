@@ -81,3 +81,19 @@ function playSound(type) {
 		audio.play();
 	}
 }
+var timerStart=0;
+var timeStop=0;
+function startTimer() {
+	timerStart=Date.now();
+	console.log("Timer start"+timerStart);
+
+}
+
+function stopTimer() {
+	timerStop=Date.now();
+	console.log("Timer stop : "+timerStop);
+	delta=(timerStop-timerStart)/1000;
+	console.log(delta);
+	var ctx = document.getElementById("time");
+	ctx.innerHTML=delta+" Seconds";
+}

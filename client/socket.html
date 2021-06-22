@@ -20,7 +20,10 @@
 	<h1>VibrateA:<em id="pva">  0 </em> / <em id="nva">  0 </em>, <em id="ina">  Keep </em></h1> 
 	<h1>VibrateB:<em id="pvb">  0 </em> / <em id="nvb">  0 </em>, <em id="inb">  Keep </em></h1>
 	<h1>Re-Position: <em id="reposition">  0  </em></h1> 
-	<h1>Mattress: <em id="mattress">  Default  </em></h1> 
+	<h1 id="time" style="display: inline;">0 Seconds</h1>
+	<button id="start" type="button" onclick="startTimer();" > Start </button>
+	<button id="stop" type="button" onclick="stopTimer();" > Stop </button> 	<h1>Mattress: <em id="mattress">  Default  </em></h1> 
+	
 	<!--abel>Mqtt Server: <input id="mqtt" type="url"><input type="submit" value="Start"></label-->
 	<form id="mqtt">
 		<label for="IP"> MQTT IP</label>
