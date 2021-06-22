@@ -5,11 +5,11 @@ body {
   }
   h1 {
     color: black;
-    font-size: 48px;
+    font-size: 40px;
   }
   p {
     color: black;
-    font-size: 40px;
+    font-size: 32px;
   }
   #message {
     font-size:20px;

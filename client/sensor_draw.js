@@ -110,7 +110,7 @@ function createMap() {
 		w = mapW*sensor_pos[i*2] + map_boundary;
 		h = mapH*sensor_pos[i*2+1] + map_boundary;
 		console.log('w='+w+"  h="+h);
-		ctx.font = "48px Times New Roman";
+		ctx.font = "40px Times New Roman";
 		ctx.fillStyle = getColor(sensor[i]);//"white";
 		ctx.fillText(sensor[i], w, h);
 	}
@@ -222,7 +222,7 @@ function power_failure(failure) {
 	}
 	else {
 		ctx.innerHTML="On";
-		ctx.style.backgroundColor="#1D8348";
+		ctx.style.backgroundColor="#1D8348"; // Green
 	}
 }
 var fallcnt=0;
@@ -248,7 +248,7 @@ function falling(val) {
 	}
 	else {
 		fallcnt = 0;
-		ctx.style.backgroundColor='#21618C';
+		ctx.style.backgroundColor='#21618C'; // blue
 	}
 }
 function mattress(id) {
@@ -296,5 +296,199 @@ function reposition(val) {
 	}
 	else {
 		ctx.style.backgroundColor='green';
+	}
+}
+
+function GetInflateColor(s) {
+	if (s=="Init") {
+		return "white";
+	}
+	else if (s=="In") {
+		return color_blue;
+	}
+	else if (s=="Out") {
+		return color_amber;
+	}
+	else {
+		return "#1D8348";//color_green;
+	}
+
+}
+// Extend debug message 
+function VibrateData(pva,nva,pvb,nvb, rotor_num) {
+	if (pva===undefined) {
+		var ctx = document.getElementById("pva");
+		ctx.innerHTML="X";
+		//ctx.style.backgroundColor='white';
+	
+		var ctx = document.getElementById("nva");
+		ctx.innerHTML="X";
+		//ctx.style.backgroundColor='white';
+	
+		var ctx = document.getElementById("pvb");
+		ctx.innerHTML="X";
+		//ctx.style.backgroundColor='white';
+	
+		var ctx = document.getElementById("nvb");
+		ctx.innerHTML="X";
+		//ctx.style.backgroundColor='white';
+			//console.log("No vibrate data");
+			var ctx = document.getElementById("ina");
+			ctx.innerHTML="X";
+			//ctx.style.backgroundColor='white';
+			var ctx = document.getElementById("inb");
+			ctx.innerHTML="X";
+			//ctx.style.backgroundColor='white';
+					return;
+	}
+	var ctx = document.getElementById("pva");
+	ctx.innerHTML=pva;
+
+	var ctx = document.getElementById("nva");
+	ctx.innerHTML=nva;
+
+	var ctx = document.getElementById("pvb");
+	ctx.innerHTML=pvb;
+
+	var ctx = document.getElementById("nvb");
+	ctx.innerHTML=nvb;
+// rotor valve number
+var ina="Keep";
+var inb="Keep";
+switch(rotor_num) {
+	case 0:
+		ina="Out";
+		inb="Out"
+		break;
+	case 1:
+		ina="Init";
+		inb="Init";
+		break;
+	case 2:
+		ina="Keep";
+		inb="Out";
+		break;
+	case 4:
+		ina="In"
+		inb="Keep"
+		break;
+	case 5:
+		ina="In"
+		inb="Out"
+		break;
+	case 7:
+		ina="In"
+		inb="In"
+		break;
+	case 8:
+		ina="Keep"
+		inb="Keep"
+		break;
+	case 9:
+		ina="Out"
+		inb="In"
+		break;
+	case 10:
+		ina="Keep"
+		inb="In"
+		break;
+	case 3:
+	case 6:
+	case 11:
+	case 12:
+	default:
+		ina="X";
+		inb="X";
+		break;
+}
+var ctx = document.getElementById("ina");
+ctx.innerHTML=ina;
+ctx.style.backgroundColor=GetInflateColor(ina);
+var ctx = document.getElementById("inb");
+ctx.innerHTML=inb;
+ctx.style.backgroundColor=GetInflateColor(inb);
+
+}
+function PowerBoardData(pressure, pump, rotor_num) {
+// pressure
+if (pressure === undefined) {
+	var ctx = document.getElementById("pressure");
+	ctx.innerHTML="X";
+	//ctx.style.backgroundColor="black"
+	var ctx = document.getElementById("rotor_num");
+	ctx.innerHTML="X";
+	//ctx.style.backgroundColor="black"
+
+	var ctx = document.getElementById("pump");
+	ctx.innerHTML="X";
+	//ctx.style.backgroundColor="black"
+
+	//console.log("No power board data");
+	return;
+}
+var ctx = document.getElementById("pressure");
+ctx.innerHTML=pressure;
+
+// rotor valve number
+var ctx = document.getElementById("rotor_num");
+ctx.innerHTML=rotor_num;
+if (rotor_num >14) {
+	ctx.style.backgroundColor="red"
+}
+else {
+	ctx.style.backgroundColor="white"
+}
+
+// pump
+var ctx = document.getElementById("pump");
+if (pump==0) {
+	ctx.innerHTML="Off";
+	ctx.style.backgroundColor="gray";
+}
+else {
+	ctx.innerHTML="On";
+	ctx.style.backgroundColor="green";
+}
+
+}
+function ShowMode(mode) {
+	var ctx = document.getElementById("mode");
+	if (mode ===undefined) {
+		ctx.innerHTML="X";
+		//ctx.style.backgroundColor="black"
+			//console.log("No Operation mode data");
+		return;
+	}
+	switch (mode)	{
+		case 0:
+			ctx.innerHTML="Power Off";
+			break;
+		case 1:
+			ctx.innerHTML="Initialize";
+			break;
+		case 2:
+			ctx.innerHTML="Ready";
+			break;
+		case 3:
+			ctx.innerHTML="Patient On";
+			break;
+		case 4:
+			ctx.innerHTML="Dynamic";
+			break;
+		case 5:
+			ctx.innerHTML="Static";
+			break;
+		case 6:
+			ctx.innerHTML="Max";
+			break;
+		case 7:
+			ctx.innerHTML="Transport";
+			break;
+		case 8:
+			ctx.innerHTML="DBE";
+			break;
+		default:
+			ctx.innerHTML="Unknow";
+			break;
 	}
 }

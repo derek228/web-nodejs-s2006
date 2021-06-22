@@ -8,6 +8,37 @@ var AESCrypt = require('./aes_crypto.js');
 var client=null;
 var addr=null;
 var filterMAC='';
+var file_title='';
+
+function GetLogTime() {
+  var d = Date.now();
+  var dd = new Date(d);
+  var dateStr=dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds();
+//  var dateStr=dd.getFullYear()+'-'+dd.getMonth()+'-'+dd.getDate()+'_'+dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds();
+  //console.log(dateStr);
+  return dateStr;
+}
+
+function GetFileName() {
+  var d = Date.now();
+  var dd = new Date(d);
+  var dateStr=dd.getFullYear()+'-'+dd.getMonth()+1+'-'+dd.getDate()+'_'+dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds();
+  console.log(dateStr);
+  return dateStr;
+}
+
+//var date=Date.now();
+//var date = new Date(date);
+var filename = GetFileName()+".log";
+/*//date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate()+'-'+date.getHours()+'-'+date.getMinutes()+'-'+date.getSeconds();//+Date().getFullMonth()+Date().getDate()+Date().getHour();
+fs.open(filename, 'a+', function(err,fd) {
+  if (err) {
+    console.log("Fail to Create Log file: "+filename);
+    return console.error(err);
+  }
+  console.log("Log File :"+filename+".log Created success!");
+  })
+  */
 var server = http.createServer(function(request, response) {
 
   var myURL= new URL("http://localhost:8001"+request.url);
@@ -24,6 +55,7 @@ var server = http.createServer(function(request, response) {
        if (request.method==='GET') {
          addr = myURL.searchParams.get('addr');
          mac=myURL.searchParams.get('mac');
+         file_title=myURL.searchParams.get('file');
          if (addr) {
           console.log('MQTT IP :' + addr);
           addr = "mqtt://"+addr;
@@ -34,6 +66,14 @@ var server = http.createServer(function(request, response) {
          if (mac) {
           filterMAC=mac;
            console.log('MAC : '+filterMAC)
+         }
+         if (file_title) {
+           filename = file_title+"_"+GetFileName()+".log";
+           console.log("Log File Name : "+ filename);
+         }
+         else {
+           console.log("No file name title define");
+           //filename=GetFileName()+".log";
          }
         
          //console.log(JSON.stringify(myURL.query));
@@ -79,11 +119,18 @@ io.on('connection',(socket) => {
   s2006_mqtt.client().on('message', function(topic, msg) {
   data = AESCrypt.decrypt(msg);
     json=JSON.parse(data);
+    //json.time=GetLogTime();
+    //console.log(json);
+    //transfor2csv(json);
+
     if (filterMAC) {
       if  (json.mac_address == filterMAC){
-      console.log('======================= Get Sensor Data From MQTT '+filterMAC+'=========================' + data.length);
+      //console.log('======================= Get Sensor Data From MQTT '+filterMAC+'=========================' + data.length);
       socket.emit('message', {'message': data});
-      //console.log(data);
+      //fs.appendFileSync(filename+".log",data);
+      //fs.writeFileSync(filename+".log",data);
+      log_to_file(json);
+      //console.log(GetLogTime() + ":  "+data);
       }
       else {
         console.log('====Wrong MAC filter type=====' + data.length);
@@ -95,3 +142,51 @@ io.on('connection',(socket) => {
     //socket.emit('message', {'message': data});
   });
 });
+
+function log_to_file(data) {
+ fs.open(filename,'a+', function(err,fd) {
+    if (err) {
+      console.log("Fail to Create Log file: "+filename);
+      return console.error(err);
+    }
+    //console.log("Log File :"+filename+".log Created success!");
+    var msg=GetLogTime()+', ';
+    msg=msg+data.status+', ';
+    if (data.status !== -2) {
+      msg=msg+data.envelopment_rate+', ';
+      msg=msg+data.falling_risk+', ';
+      msg=msg+data.reposition_time;
+      for (i=0;i<27;i++) {
+        msg = msg+', '
+        msg=msg+data.sensor_data[i];
+      }
+    }
+    msg=msg+'\n';
+    //console.log(msg);
+    fs.appendFileSync(filename,msg);
+//    fs.appendFileSync(filename,data);
+/*
+    fs.writeFile(fd,data,  function(err) {
+      if (err) {
+        console.error(err);
+      }
+    })
+    */
+    fs.close(fd);
+  })
+}
+/*
+const  {Parser}  = require('json2csv');
+
+function transfor2csv(d) {
+  const fields = ['time', 'status', 'envelopment_rate'];
+  const opts = { fields };
+  try {
+    const parser = new Parser(opts);
+    const csv = parser.parse(d);
+    console.log(csv);
+  } catch (err) {
+    console.error(err);
+  }
+}
+*/

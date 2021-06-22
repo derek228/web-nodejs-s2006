@@ -10,25 +10,34 @@
 	<link rel="stylesheet" type="text/css" href="./main.css">
   </head>
   <body>
-    <div id='message'> test </div>
+    <!--div id='message'> test </div-->
 	<h1 > <canvas id="map" style="float:left" width="400" height="600"></canvas>  Power : <em id="power"> Off </em> </h1>
-	<h1>Upright: <em id="upright"> 0 </em> </h1>
-	<h1>Falling: <em id="falling">  0 </em></h1> 
-	<h1>Env: <em id="envelop">  0 </em></h1> 
+	<h1> Mode:<em id="mode"> Unknow</em></h1>
 	<h1>Position: <em id="position">  Empty  </em></h1> 
+	<h1>Pump: <em id="pump">  Off  </em>, Rotor:  <em id="rotor_num">  0  </em></h1> 
+	<h1>Falling: <em id="falling">  0 </em>, Upright: <em id="upright"> 0 </em> </h1>
+	<h1>Env: <em id="envelop">  0 </em> , Pressure:  <em id="pressure">  0 </em> </h1> 
+	<h1>VibrateA:<em id="pva">  0 </em> / <em id="nva">  0 </em>, <em id="ina">  Keep </em></h1> 
+	<h1>VibrateB:<em id="pvb">  0 </em> / <em id="nvb">  0 </em>, <em id="inb">  Keep </em></h1>
 	<h1>Re-Position: <em id="reposition">  0  </em></h1> 
 	<h1>Mattress: <em id="mattress">  Default  </em></h1> 
 	<!--abel>Mqtt Server: <input id="mqtt" type="url"><input type="submit" value="Start"></label-->
 	<form id="mqtt">
 		<label for="IP"> MQTT IP</label>
 		<input id="addr" name="addr" value="">
-		<label for="IP"> MAC</label>
+		<label for="MAC"> MAC</label>
 		<input id="mac" name="mac" value="">
 		<input type="submit" value="Send">
 	</form>
-	<audio id="hello">  <source src="./hello.mp3" type="audio/mpeg"> </audio>
-	<audio id="bye"><source src="./bye.mp3" type="audio/mpeg"></audio>
-	<audio id="fall">  <source src="./falling.mp3" type="audio/mpeg"> </audio>
+	<form id="mqtt">
+		<label for="FILE"> File Name</label>
+		<input id="file" name="file" value="">
+		<input type="submit" value="Send">
+	</form>
+
+	<audio id="hello" muted autoplay>  <source src="./hello.mp3" type="audio/mpeg"> </audio>
+	<audio id="bye" muted autoplay><source src="./bye.mp3" type="audio/mpeg"></audio>
+	<audio id="fall" muted autoplay>  <source src="./falling.mp3" type="audio/mpeg"> </audio>
     <!--textarea id="text"></textarea-->
     <script> 
 		socket_load();

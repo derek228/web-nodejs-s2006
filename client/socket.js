@@ -6,8 +6,10 @@ function socket_load() {
 	socket.on('message', function(data){
 		//console.log(data.message);
 		mqtt=JSON.parse(data.message);
+		/* // show sensor data
 		var msg=document.getElementById("message");
 		msg.innerText=mqtt.sensor_data;
+		*/
 		if (mqtt.status === -2) {
 			if (mqtt.failure_code=== 0) {
 				power_failure_show(mqtt);
@@ -57,12 +59,15 @@ function normal_show(data) {
 	envelopment(mqtt.envelopment_rate);
 	mattress(mqtt.mattress_id);
 	reposition(mqtt.reposition_time);
+	VibrateData(mqtt.pva,mqtt.nva,mqtt.pvb,mqtt.nvb,mqtt.rotor_num );
+	PowerBoardData(mqtt.pressure,mqtt.pump, mqtt.rotor_num);
+	ShowMode(mqtt.mode);
 }
 function playSound(type) {
 	console.log(type);
 	if (type=="hello") {
 		const audio = document.getElementById("hello");
-		audio.currentTime=0;
+		//audio.currentTime=0;
 		audio.muted=false;
 		//audio.src=path;
 		audio.play();
@@ -71,7 +76,7 @@ function playSound(type) {
 		console.log(document.getElementById('bye').src);
 		const audio = document.getElementById("bye");
 		//audio.src=path;
-		audio.currentTime=0;
+		//audio.currentTime=0;
 		audio.muted=false;
 		audio.play();
 	}
