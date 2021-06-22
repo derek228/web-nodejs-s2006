@@ -84,16 +84,18 @@ function playSound(type) {
 var timerStart=0;
 var timeStop=0;
 function startTimer() {
+	var ctx = document.getElementById("time");
+	ctx.innerHTML="0.000 Seconds";
 	timerStart=Date.now();
-	console.log("Timer start"+timerStart);
+//	console.log("Timer start"+timerStart);
 
 }
 
 function stopTimer() {
 	timerStop=Date.now();
-	console.log("Timer stop : "+timerStop);
+//	console.log("Timer stop : "+timerStop);
 	delta=(timerStop-timerStart)/1000;
-	console.log(delta);
+//	console.log(delta);
 	var ctx = document.getElementById("time");
 	ctx.innerHTML=delta+" Seconds";
 }
