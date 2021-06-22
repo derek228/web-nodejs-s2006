@@ -9,7 +9,7 @@ var client=null;
 var addr=null;
 var filterMAC='';
 var file_title='';
-
+var start_log = 0;
 function GetLogTime() {
   var d = Date.now();
   var dd = new Date(d);
@@ -68,6 +68,7 @@ var server = http.createServer(function(request, response) {
            console.log('MAC : '+filterMAC)
          }
          if (file_title) {
+           start_log=1;
            filename = file_title+"_"+GetFileName()+".log";
            console.log("Log File Name : "+ filename);
          }
@@ -144,6 +145,10 @@ io.on('connection',(socket) => {
 });
 
 function log_to_file(data) {
+  if (start_log === 0) {
+    console.log(data);
+    return;
+  }
  fs.open(filename,'a+', function(err,fd) {
     if (err) {
       console.log("Fail to Create Log file: "+filename);
