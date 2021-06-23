@@ -84,13 +84,31 @@ function playSound(type) {
 var timerStart=0;
 var timeStop=0;
 function startTimer() {
-	var ctx = document.getElementById("time");
-	ctx.innerHTML="0.000 Seconds";
-	timerStart=Date.now();
+	if (timerStart !== 0) {
+		timeStop=Date.now();
+		delta = (timeStop-timerStart)/1000;
+		var ctx = document.getElementById("time");
+		ctx.innerHTML=delta+" Seconds";
+		timerStart = 0;
+		var ctx = document.getElementById("start");
+		ctx.innerHTML="Start";
+		ctx.style.backgroundColor="#4CAF50";
+	}	
+	else {
+		timerStart = Date.now();
+		var ctx = document.getElementById("time");
+		ctx.innerHTML="0.000 Seconds";
+		var ctx = document.getElementById("start");
+		ctx.innerHTML="Stop";
+		ctx.style.backgroundColor="#8a591a";
+	}
+	//var ctx = document.getElementById("time");
+	//ctx.innerHTML="0.000 Seconds";
+	//timerStart=Date.now();
 //	console.log("Timer start"+timerStart);
 
 }
-
+/*
 function stopTimer() {
 	timerStop=Date.now();
 //	console.log("Timer stop : "+timerStop);
@@ -99,3 +117,4 @@ function stopTimer() {
 	var ctx = document.getElementById("time");
 	ctx.innerHTML=delta+" Seconds";
 }
+*/
