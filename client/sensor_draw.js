@@ -492,3 +492,28 @@ function ShowMode(mode) {
 			break;
 	}
 }
+function show_failure(num) {
+	var ctx = document.getElementById("failure");
+	switch (num) {
+		case 0: // clear failure
+			ctx.innerHTML="None";
+			ctx.style.backgroundColor="green"
+			break;
+		case 1: // Rotor Valve Failure
+			ctx.innerHTML="Rotor Valve Failure";
+			ctx.style.backgroundColor="red";
+			break;
+		case 2: // Low Pressure
+			ctx.innerHTML="Low Pressure";
+			ctx.style.backgroundColor="red";
+			break;
+		case 3:
+			ctx.innerHTML="High Pressure";
+			ctx.style.backgroundColor="red";
+			break;
+		case 4:
+			ctx.innerHTML="Sensor Error";
+			ctx.style.backgroundColor="red";
+			break;
+	}
+}

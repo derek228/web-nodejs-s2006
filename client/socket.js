@@ -1,5 +1,5 @@
 var patient_status=0;
-
+var failure_flag=0;
 function socket_load() {
 	var socket = io.connect();
 	console.log("Socket connected.");
@@ -13,6 +13,10 @@ function socket_load() {
 		if (mqtt.status === -2) {
 			if (mqtt.failure_code=== 0) {
 				power_failure_show(mqtt);
+			}
+			else {
+				failure_flag=2;
+				show_failure(mqtt.failure_code);
 			}
 		}
 		else {
@@ -62,6 +66,12 @@ function normal_show(data) {
 	VibrateData(mqtt.pva,mqtt.nva,mqtt.pvb,mqtt.nvb,mqtt.rotor_num );
 	PowerBoardData(mqtt.pressure,mqtt.pump, mqtt.rotor_num);
 	ShowMode(mqtt.mode);
+	if (failure_flag) {
+		failure_flag=failure_flag-1;
+	}
+	else {
+		show_failure(0);
+	}
 }
 function playSound(type) {
 	console.log(type);
