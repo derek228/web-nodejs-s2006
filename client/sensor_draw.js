@@ -515,5 +515,9 @@ function show_failure(num) {
 			ctx.innerHTML="Sensor Error";
 			ctx.style.backgroundColor="red";
 			break;
+		case 5:
+			ctx.innerHTML="Bottoming Out";
+			ctx.style.backgroundColor="red";
+			break;
 	}
 }
