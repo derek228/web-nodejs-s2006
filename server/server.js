@@ -26,7 +26,33 @@ function GetFileName() {
   console.log(dateStr);
   return dateStr;
 }
+function html_page(host, req_url, lsof) {//this is a Function declarations can be called before it is defined
+  // Add link to root directory and parent directory if not already in root directory
+  list = req_url == '/' ? [] : [`<a href="${host}">/</a>`,
+  `<a href="${host}${encodeURI(req_url.slice(0,req_url.lastIndexOf('/')))}">..</a>`];
 
+  templete = (host, req_url, file) => {// the above is a Function expressions cannot be called before it is defined
+    return `<a href="${host}${encodeURI(req_url)}${req_url.slice(-1) == '/' ? '' : '/'}${encodeURI(file)}">${file}</a>`; }
+
+  // Add all the links to the files and folder in requested directory
+  lsof.forEach(file => {
+    list.push(templete(host, req_url, file));
+  });
+
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html" charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Directory of ${req_url}</title>
+</head>
+<body>
+<h2>Directory of ${req_url}</h2>
+${list.join('<br/>\n')}
+</body>
+</html>`
+}
 //var date=Date.now();
 //var date = new Date(date);
 var filename = GetFileName()+".log";
@@ -46,10 +72,27 @@ var server = http.createServer(function(request, response) {
   console.log(__dirname + path);
   switch (path) {
     case '/':
+      stats = fs.statSync(path);
+      if (stats.isFile()) {
+        buffer = fs.createReadStream(path);
+        buffer.on('open', () => buffer.pipe(res));
+        //return;
+      }
+  
+      if (stats.isDirectory()) {
+        //Get list of files and folder in requested directory
+        lsof = fs.readdirSync(path, {encoding:'utf8', withFileTypes:false});
+    console.log(lsof);
+        // make an html page with the list of files and send to browser
+        res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+        res.end(html_page(`http://${hostname}:${port}`, req_url, lsof));
+        //return;
+      }
+  
       //console.log(path);
-      response.writeHead(200, {'Content-Type': 'text/html'});
-      response.write('Hello, World.');
-      response.end();
+      //response.writeHead(200, {'Content-Type': 'text/html'});
+      //response.write('Hello, World.');
+      //response.end();
       break;
       case '/client/socket.html':
        if (request.method==='GET') {
@@ -120,7 +163,7 @@ io.on('connection',(socket) => {
   s2006_mqtt.client().on('message', function(topic, msg) {
   data = AESCrypt.decrypt(msg);
     json=JSON.parse(data);
-    //json.time=GetLogTime();
+    json.time=GetLogTime();
     //console.log(json);
     //transfor2csv(json);
 
@@ -130,7 +173,7 @@ io.on('connection',(socket) => {
       socket.emit('message', {'message': data});
       //fs.appendFileSync(filename+".log",data);
       //fs.writeFileSync(filename+".log",data);
-      log_to_file(json);
+      log_to_file(JSON.stringify(json));
       //console.log(GetLogTime() + ":  "+data);
       }
       else {
@@ -154,7 +197,9 @@ function log_to_file(data) {
       console.log("Fail to Create Log file: "+filename);
       return console.error(err);
     }
+    fs.appendFileSync(filename,data);
     //console.log("Log File :"+filename+".log Created success!");
+    /*
     var msg=GetLogTime()+', ';
     msg=msg+data.status+', ';
     if (data.status !== -2) {
@@ -167,8 +212,11 @@ function log_to_file(data) {
       }
     }
     msg=msg+'\n';
-    //console.log(msg);
-    fs.appendFileSync(filename,msg);
+    
+    console.log(msg);
+    
+   fs.appendFileSync(filename,msg);
+*/
 //    fs.appendFileSync(filename,data);
 /*
     fs.writeFile(fd,data,  function(err) {
