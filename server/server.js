@@ -10,19 +10,25 @@ var addr=null;
 var filterMAC='';
 var file_title='';
 var start_log = 0;
+var log_dir='logs/';
+
+
 function GetLogTime() {
   var d = Date.now();
   var dd = new Date(d);
   var dateStr=dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds();
+  var log_path='';
 //  var dateStr=dd.getFullYear()+'-'+dd.getMonth()+'-'+dd.getDate()+'_'+dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds();
   //console.log(dateStr);
   return dateStr;
 }
-
+function CreateDirectory(path) {
+  
+}
 function GetFileName() {
   var d = Date.now();
   var dd = new Date(d);
-  var dateStr=dd.getFullYear()+'-'+dd.getMonth()+1+'-'+dd.getDate()+'_'+dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds();
+  var dateStr=dd.getFullYear()+'-'+(dd.getMonth()+1)+'-'+dd.getDate()+'_'+dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds();
   console.log(dateStr);
   return dateStr;
 }
@@ -111,9 +117,19 @@ var server = http.createServer(function(request, response) {
            console.log('MAC : '+filterMAC)
          }
          if (file_title) {
+           console.log(log_dir);
            start_log=1;
-           filename = file_title+"_"+GetFileName()+".log";
+           log_path = log_dir  + file_title+'/';//+"_"+GetFileName()+".log";
+           console.log(log_path);
+           if (fs.existsSync(log_path)==false) {
+            fs.mkdirSync(log_path);
+           }
+           else {
+             console.log(log_path + " already exist!");
+           }
+           filename = log_path+GetFileName()+".log";
            console.log("Log File Name : "+ filename);
+
          }
          else {
            console.log("No file name title define");
