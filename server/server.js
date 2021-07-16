@@ -5,12 +5,15 @@ var url = require('url');
 var fs = require('fs');
 var s2006_mqtt = require('./mqtt_example.js');
 var AESCrypt = require('./aes_crypto.js');
+
+// global variable
 var client=null;
 var addr=null;
 var filterMAC='';
 var file_title='';
 var start_log = 0;
 var log_dir='logs/';
+var filename = GetFileName()+".log";
 
 
 function GetLogTime() {
@@ -22,9 +25,7 @@ function GetLogTime() {
   //console.log(dateStr);
   return dateStr;
 }
-function CreateDirectory(path) {
-  
-}
+
 function GetFileName() {
   var d = Date.now();
   var dd = new Date(d);
@@ -32,6 +33,7 @@ function GetFileName() {
   console.log(dateStr);
   return dateStr;
 }
+
 function html_page(host, req_url, lsof) {//this is a Function declarations can be called before it is defined
   // Add link to root directory and parent directory if not already in root directory
   list = req_url == '/' ? [] : [`<a href="${host}">/</a>`,
@@ -59,18 +61,20 @@ ${list.join('<br/>\n')}
 </body>
 </html>`
 }
-//var date=Date.now();
-//var date = new Date(date);
-var filename = GetFileName()+".log";
-/*//date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate()+'-'+date.getHours()+'-'+date.getMinutes()+'-'+date.getSeconds();//+Date().getFullMonth()+Date().getDate()+Date().getHour();
-fs.open(filename, 'a+', function(err,fd) {
-  if (err) {
-    console.log("Fail to Create Log file: "+filename);
-    return console.error(err);
+
+function CheckIP(ip) {
+  const exex = require('child_process').exec;
+  exex(`ping -c 3 ${ip}`, (error, stdout, stderr)=>{
+  if(error){
+    console.log('ip is inactive.');
+    return false;
+  }else{
+    console.log('ip is active.');
+    return true;
   }
-  console.log("Log File :"+filename+".log Created success!");
-  })
-  */
+  });
+}
+
 var server = http.createServer(function(request, response) {
 
   var myURL= new URL("http://localhost:8001"+request.url);
@@ -82,7 +86,6 @@ var server = http.createServer(function(request, response) {
       if (stats.isFile()) {
         buffer = fs.createReadStream(path);
         buffer.on('open', () => buffer.pipe(res));
-        //return;
       }
   
       if (stats.isDirectory()) {
@@ -92,7 +95,6 @@ var server = http.createServer(function(request, response) {
         // make an html page with the list of files and send to browser
         res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
         res.end(html_page(`http://${hostname}:${port}`, req_url, lsof));
-        //return;
       }
   
       //console.log(path);
@@ -106,15 +108,22 @@ var server = http.createServer(function(request, response) {
          mac=myURL.searchParams.get('mac');
          file_title=myURL.searchParams.get('file');
          if (addr) {
+           if (CheckIP(addr)==true){
           console.log('MQTT IP :' + addr);
           addr = "mqtt://"+addr;
           s2006_mqtt.client().end  ();
           client = null;
           client=s2006_mqtt.init(addr);
+           }
          }
          if (mac) {
-          filterMAC=mac;
-           console.log('MAC : '+filterMAC)
+           if (mac.length===17) {
+            filterMAC=mac;
+            console.log('MAC : '+filterMAC+" length="+mac.length);
+           }
+           else {
+             console.log("[ERROR]: Wrong MAC address format");
+           }
          }
          if (file_title) {
            console.log(log_dir);
@@ -181,16 +190,12 @@ io.on('connection',(socket) => {
     json=JSON.parse(data);
     json.time=GetLogTime();
     //console.log(json);
-    //transfor2csv(json);
 
     if (filterMAC) {
       if  (json.mac_address == filterMAC){
-      //console.log('======================= Get Sensor Data From MQTT '+filterMAC+'=========================' + data.length);
-      socket.emit('message', {'message': data});
-      //fs.appendFileSync(filename+".log",data);
-      //fs.writeFileSync(filename+".log",data);
-      log_to_file(JSON.stringify(json));
-      //console.log(GetLogTime() + ":  "+data);
+        //console.log('======================= Get Sensor Data From MQTT '+filterMAC+'=========================' + data.length);
+        socket.emit('message', {'message': data});
+        log_to_file(JSON.stringify(json));
       }
       else {
         console.log('====Wrong MAC filter type=====' + data.length);
@@ -214,48 +219,6 @@ function log_to_file(data) {
       return console.error(err);
     }
     fs.appendFileSync(filename,data);
-    //console.log("Log File :"+filename+".log Created success!");
-    /*
-    var msg=GetLogTime()+', ';
-    msg=msg+data.status+', ';
-    if (data.status !== -2) {
-      msg=msg+data.envelopment_rate+', ';
-      msg=msg+data.falling_risk+', ';
-      msg=msg+data.reposition_time;
-      for (i=0;i<27;i++) {
-        msg = msg+', '
-        msg=msg+data.sensor_data[i];
-      }
-    }
-    msg=msg+'\n';
-    
-    console.log(msg);
-    
-   fs.appendFileSync(filename,msg);
-*/
-//    fs.appendFileSync(filename,data);
-/*
-    fs.writeFile(fd,data,  function(err) {
-      if (err) {
-        console.error(err);
-      }
-    })
-    */
     fs.close(fd);
   })
 }
-/*
-const  {Parser}  = require('json2csv');
-
-function transfor2csv(d) {
-  const fields = ['time', 'status', 'envelopment_rate'];
-  const opts = { fields };
-  try {
-    const parser = new Parser(opts);
-    const csv = parser.parse(d);
-    console.log(csv);
-  } catch (err) {
-    console.error(err);
-  }
-}
-*/

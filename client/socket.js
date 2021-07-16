@@ -4,7 +4,6 @@ function socket_load() {
 	var socket = io.connect();
 	console.log("Socket connected.");
 	socket.on('message', function(data){
-		//console.log(data.message);
 		mqtt=JSON.parse(data.message);
 		/* // show sensor data
 		var msg=document.getElementById("message");
@@ -118,13 +117,3 @@ function startTimer() {
 //	console.log("Timer start"+timerStart);
 
 }
-/*
-function stopTimer() {
-	timerStop=Date.now();
-//	console.log("Timer stop : "+timerStop);
-	delta=(timerStop-timerStart)/1000;
-//	console.log(delta);
-	var ctx = document.getElementById("time");
-	ctx.innerHTML=delta+" Seconds";
-}
-*/
