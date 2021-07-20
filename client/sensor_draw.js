@@ -2,13 +2,13 @@ const color_amber='#F08000'
 const color_yellow='#F0F000'
 const color_green='#20F000'
 const color_blue='#0090F0'
-const canvas_width = 400;
-const canvas_height = 600;
-const mapW=300;//+map_boundary*2;
-const mapH=500;//+map_boundary*2;
-const map_boundary = 50;//(canvas_width-mapW)/2;
-const idW = 60;//50;
-const idH = 50;
+const canvas_width = 200;//400;
+const canvas_height = 300;//600;
+const mapW=150;//300;//+map_boundary*2;
+const mapH=250;//500;//+map_boundary*2;
+const map_boundary = 25;//50;//(canvas_width-mapW)/2;
+const idW = 30;//60;//50;
+const idH = 25;//50;
 
 const sensor_pos = [2/5, 1,
 			1/5, 9/10, 2/5, 9/10, 3/5, 9/10,
@@ -110,7 +110,8 @@ function createMap() {
 		w = mapW*sensor_pos[i*2] + map_boundary;
 		h = mapH*sensor_pos[i*2+1] + map_boundary;
 		console.log('w='+w+"  h="+h);
-		ctx.font = "40px Times New Roman";
+		ctx.font = "20px Times New Roman";
+//		ctx.font = "40px Times New Roman";
 		ctx.fillStyle = getColor(sensor[i]);//"white";
 		ctx.fillText(sensor[i], w, h);
 	}
@@ -136,7 +137,8 @@ function sensorUpdate(sensor) {
 	var w=0;
 	var h=0;
 	for (i=0;i<26;i++) {
-		ctx.font = "36px Times New Roman";
+//		ctx.font = "36px Times New Roman";
+		ctx.font = "18px Times New Roman";
 		ctx.fillStyle =  'white';//getColor(sensor[i]);
 		w = mapW*sensor_pos[i*2] + map_boundary;
 		h = mapH*sensor_pos[i*2+1] + map_boundary;
@@ -211,7 +213,7 @@ function envelopment(val) {
 }
 function upright(val) {
 	var ctx = document.getElementById("upright");
-	ctx.innerHTML=val;
+	ctx.innerHTML=val+"&deg";
 	//ctx.style.backgroundColor="black";
 }
 function power_failure(failure) {
@@ -492,32 +494,82 @@ function ShowMode(mode) {
 			break;
 	}
 }
-function show_failure(num) {
-	var ctx = document.getElementById("failure");
-	switch (num) {
+//function show_failure(num) {
+function show_failure(f) {
+	var power_failure=0x1;
+	var rotro_failure=0x02;
+	var low_pressure_failure=0x04;
+	var high_pressure_failure=0x08;
+	var sensor_failure=0x10;
+	var bottoming_failure=0x20;
+	var fail_str='';
+	if (f===0) {
+		var ctx = document.getElementById("failure");
+		ctx.innerHTML='None';
+		ctx.style.backgroundColor='green';
+	}
+	else {
+		if (f & power_failure) {
+			fail_str+="Power, "
+		}
+		if (f & rotor_failure) {
+			fail_str+="Rotor Valve, "
+		}
+		if (f & low_pressure_failure) {
+			fail_str+="Low Pressure, "
+		}
+		if (f & high_pressure_failure) {
+			fail_str+="High Pressure, "
+		}
+		if (f & sensor_failure) {
+			fail_str+="Sensor, "
+		}
+		if (f & bottoming_failure) {
+			fail_str+="Bottoming, "
+		}
+		var ctx = document.getElementById("failure");
+		ctx.innerHTML=fail_str;
+		ctx.style.backgroundColor='red';
+	
+	}
+/*	switch (num) {
 		case 0: // clear failure
 			ctx.innerHTML="None";
 			ctx.style.backgroundColor="green"
 			break;
 		case 1: // Rotor Valve Failure
+			ctx.innerHTML="Power Failure";
+			ctx.style.backgroundColor="red";
+			break;
+		case 2: // Rotor Valve Failure
 			ctx.innerHTML="Rotor Valve Failure";
 			ctx.style.backgroundColor="red";
 			break;
-		case 2: // Low Pressure
+		case 3: // Low Pressure
 			ctx.innerHTML="Low Pressure";
 			ctx.style.backgroundColor="red";
 			break;
-		case 3:
+		case 4:
 			ctx.innerHTML="High Pressure";
 			ctx.style.backgroundColor="red";
 			break;
-		case 4:
+		case 5:
 			ctx.innerHTML="Sensor Error";
 			ctx.style.backgroundColor="red";
 			break;
-		case 5:
+		case 6:
 			ctx.innerHTML="Bottoming Out";
 			ctx.style.backgroundColor="red";
 			break;
-	}
+	}*/
+}
+function show_current_time() {
+    var d = Date.now();
+    var dd = new Date(d);
+    var dateStr=dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds();
+  //  var dateStr=dd.getFullYear()+'-'+dd.getMonth()+'-'+dd.getDate()+'_'+dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds();
+    //console.log(dateStr);
+	var ctx = document.getElementById("curtime");
+	ctx.innerHTML=dateStr;
+
 }

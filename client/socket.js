@@ -1,5 +1,6 @@
 var patient_status=0;
 var failure_flag=0;
+
 function socket_load() {
 	var socket = io.connect();
 	console.log("Socket connected.");
@@ -9,10 +10,20 @@ function socket_load() {
 		var msg=document.getElementById("message");
 		msg.innerText=mqtt.sensor_data;
 		*/
-		if (mqtt.status === -2) {
-			if (mqtt.failure_code=== 0) {
-				power_failure_show(mqtt);
+		show_failure(mqtt.failure_code);
+		if (mqtt.failure_code & 0x01) {
+			console.log("Power Failure");
+		}
+		else {
+			normal_show(mqtt);
+		}
+		/*
+		if (mqtt.failure_code !== 0) {
+			var failure_str='';
+			if (mqtt.failure_code&power_failure) {
+				failure_str+='power_failure, ';
 			}
+			if 
 			else {
 				failure_flag=2;
 				show_failure(mqtt.failure_code);
@@ -21,6 +32,7 @@ function socket_load() {
 		else {
 			normal_show(mqtt);
 		}
+		*/
 	});
 	socket.on("disconnect", (reason) => {
 		console.log("Disconnec socket");
@@ -57,7 +69,7 @@ function normal_show(data) {
 	}
 	upright(mqtt.sensor_data[26]);
 	falling(mqtt.falling_risk);
-	power_failure(0);	
+	//power_failure(0);	
 	position(mqtt.status);
 	envelopment(mqtt.envelopment_rate);
 	mattress(mqtt.mattress_id);
@@ -65,12 +77,15 @@ function normal_show(data) {
 	VibrateData(mqtt.pva,mqtt.nva,mqtt.pvb,mqtt.nvb,mqtt.rotor_num );
 	PowerBoardData(mqtt.pressure,mqtt.pump, mqtt.rotor_num);
 	ShowMode(mqtt.mode);
+	show_current_time();
+	/*
 	if (failure_flag) {
 		failure_flag=failure_flag-1;
 	}
 	else {
 		show_failure(0);
 	}
+	*/
 }
 function playSound(type) {
 	console.log(type);

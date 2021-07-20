@@ -11,8 +11,10 @@
   </head>
   <body>
     <!--div id='message'> test </div-->
-	<h1 > <canvas id="map" style="float:left" width="400" height="600"></canvas>  Power : <em id="power"> Off </em> </h1>
-	<h1> Mode:<em id="mode"> Unknow</em></h1>
+	<!--h1 > <canvas id="map" style="float:left" width="400" height="600"></canvas>  Power : <em id="power"> Off </em> </h1-->
+	<!--h1 > <canvas id="map" style="float:left" width="200" height="300"></canvas>  Power : <em id="power"> Off </em> </h1-->
+	<h1 > <canvas id="map" style="float:left" width="200" height="300"></canvas>  Mode:<em id="mode"> Unknow</em> </h1>
+	<!--h1> Mode:<em id="mode"> Unknow</em></h1-->
 	<h1>Position: <em id="position">  Empty  </em></h1> 
 	<h1>Pump: <em id="pump">  Off  </em>, Rotor:  <em id="rotor_num">  0  </em></h1> 
 	<h1>Falling: <em id="falling">  0 </em>, Upright: <em id="upright"> 0 </em> </h1>
@@ -20,23 +22,24 @@
 	<h1>VibrateA:<em id="pva">  0 </em> / <em id="nva">  0 </em>, <em id="ina">  Keep </em></h1> 
 	<h1>VibrateB:<em id="pvb">  0 </em> / <em id="nvb">  0 </em>, <em id="inb">  Keep </em></h1>
 	<h1>Re-Position: <em id="reposition">  0  </em></h1> 
-	<h1 id="time" style="display: inline;">0.000 Seconds</h1>
-	<button id="start" type="button" onclick="startTimer();" > Start </button>
 	<!--button id="stop" type="button" onclick="stopTimer();" > Stop </button--> 	
+	<h1> Time: <em id="curtime" style="display: inline;"> 00:00:00  </em></h1> 
 	<h1>Failure: <em id="failure">  None  </em></h1> 
 	<h1>Mattress: <em id="mattress">  Default  </em></h1> 
 	
 	<!--abel>Mqtt Server: <input id="mqtt" type="url"><input type="submit" value="Start"></label-->
 	<form id="mqtt">
 		<label for="IP"> MQTT IP</label>
-		<input id="addr" name="addr" value="">
-		<label for="MAC"> MAC</label>
-		<input id="mac" name="mac" value="">
+		<input id="addr" name="addr" value=""><br>
+		<label for="MAC"> MAC &ensp;&ensp;&ensp;</label>
+		<input id="mac" name="mac" value=""><br>
 		<!--input type="submit" value="Send"-->
-		<label for="FILE"> File Name</label>
+		<label for="FILE"> Name &ensp;&ensp;</label>
 		<input id="file" name="file" value="">
 		<input type="submit" value="Send">
 	</form>
+	<h1 id="time" style="display: inline;">0.000 Seconds</h1>
+	<button id="start" type="button" onclick="startTimer();" > Start </button>
 
 	<audio id="hello" muted autoplay>  <source src="./hello.mp3" type="audio/mpeg"> </audio>
 	<audio id="bye" muted autoplay><source src="./bye.mp3" type="audio/mpeg"></audio>
