@@ -6,26 +6,25 @@
 	<script type="text/javascript" src="./sensor_draw.js"> </script>
 	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
 	<meta content="utf-8" http-equiv="encoding">
-	<!--meta http-equiv="origin-trial" content="TOKEN_GOES_HERE"-->
+	<meta http-equiv="origin-trial" content="TOKEN_GOES_HERE">
 	<link rel="stylesheet" type="text/css" href="./main.css">
   </head>
   <body>
     <!--div id='message'> test </div-->
 	<!--h1 > <canvas id="map" style="float:left" width="400" height="600"></canvas>  Power : <em id="power"> Off </em> </h1-->
 	<!--h1 > <canvas id="map" style="float:left" width="200" height="300"></canvas>  Power : <em id="power"> Off </em> </h1-->
-	<h1 > <canvas id="map" style="float:left" width="200" height="300"></canvas>  Mode:<em id="mode"> Unknow</em> </h1>
-	<!--h1> Mode:<em id="mode"> Unknow</em></h1-->
-	<h1>Position: <em id="position">  Empty  </em></h1> 
+	<h1 > <canvas id="map" style="float:left" width="200" height="300"></canvas>  Failure: <em id="failure">  None  </em> </h1>
+	<h1><em id="position">  Empty  </em> , Env: <em id="envelop">  0 </em> </h1> 
 	<h1>Pump: <em id="pump">  Off  </em>, Rotor:  <em id="rotor_num">  0  </em></h1> 
-	<h1>Falling: <em id="falling">  0 </em>, Upright: <em id="upright"> 0 </em> </h1>
-	<h1>Env: <em id="envelop">  0 </em> , Pressure:  <em id="pressure">  0 </em> </h1> 
+	<h1>Falling: <em id="falling">  0 </em> ,  <em id="upright"> 0 </em> </h1>
+	<h1>Pressure:  <em id="pressure">  0 </em> </h1> 
 	<h1>VibrateA:<em id="pva">  0 </em> / <em id="nva">  0 </em>, <em id="ina">  Keep </em></h1> 
 	<h1>VibrateB:<em id="pvb">  0 </em> / <em id="nvb">  0 </em>, <em id="inb">  Keep </em></h1>
 	<h1>Re-Position: <em id="reposition">  0  </em></h1> 
 	<!--button id="stop" type="button" onclick="stopTimer();" > Stop </button--> 	
 	<h1> Time: <em id="curtime" style="display: inline;"> 00:00:00  </em></h1> 
-	<h1>Failure: <em id="failure">  None  </em></h1> 
-	<h1>Mattress: <em id="mattress">  Default  </em></h1> 
+	<h1> Mode:<em id="mode"> Unknow</em></h1>
+	<!--h1>Failure: <em id="failure">  None  </em></h1--> 
 	
 	<!--abel>Mqtt Server: <input id="mqtt" type="url"><input type="submit" value="Start"></label-->
 	<form id="mqtt">
@@ -40,6 +39,7 @@
 	</form>
 	<h1 id="time" style="display: inline;">0.000 Seconds</h1>
 	<button id="start" type="button" onclick="startTimer();" > Start </button>
+	<h1>Mattress: <em id="mattress">  Default  </em></h1> 
 
 	<audio id="hello" muted autoplay>  <source src="./hello.mp3" type="audio/mpeg"> </audio>
 	<audio id="bye" muted autoplay><source src="./bye.mp3" type="audio/mpeg"></audio>
