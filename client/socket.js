@@ -76,7 +76,7 @@ function normal_show(data) {
 	reposition(mqtt.reposition_time);
 	VibrateData(mqtt.pva,mqtt.nva,mqtt.pvb,mqtt.nvb,mqtt.rotor_num );
 	PowerBoardData(mqtt.pressure,mqtt.pump, mqtt.rotor_num);
-	ShowMode(mqtt.mode);
+	ShowMode(mqtt.mode,mqtt.mode_step, mqtt.target_p);
 	show_current_time();
 	/*
 	if (failure_flag) {

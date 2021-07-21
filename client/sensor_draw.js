@@ -453,7 +453,11 @@ else {
 }
 
 }
-function ShowMode(mode) {
+function ShowMode(mode,step,p) {
+	const DynamicModeStepStr=["Wait_Patient","Find_Min_Distance","Start_Find_Pressure_A","Inflate_A","Keep_A","Start_Find_Pressure_B","Inflate_B","Keep_B","Exit"];
+	const StaticModeStepStr=["Wait_Patient","Find_Min_Distance","Inflate_To_Pressure","Inflate_To_Height","Re_Deflate"];
+	const InitialModeStepStr=["Inflate_A","Inflate_AB","Retry","Check_Distance","Deflate"]
+	
 	var ctx = document.getElementById("mode");
 	if (mode ===undefined) {
 		ctx.innerHTML="X";
@@ -466,7 +470,7 @@ function ShowMode(mode) {
 			ctx.innerHTML="Power Off";
 			break;
 		case 1:
-			ctx.innerHTML="Initialize";
+			ctx.innerHTML="Initialize_"+InitialModeStepStr[step];
 			break;
 		case 2:
 			ctx.innerHTML="Ready";
@@ -475,10 +479,10 @@ function ShowMode(mode) {
 			ctx.innerHTML="Patient On";
 			break;
 		case 4:
-			ctx.innerHTML="Dynamic";
+			ctx.innerHTML="Dynamic_"+DynamicModeStepStr[step]+"_"+p;
 			break;
 		case 5:
-			ctx.innerHTML="Static";
+			ctx.innerHTML="Static_"+StaticModeStepStr[step];
 			break;
 		case 6:
 			ctx.innerHTML="Max";

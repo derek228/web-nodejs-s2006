@@ -28,6 +28,12 @@ SensorFormat.envelope="";
 SensorFormat.alarm="";
 SensorFormat.mode="";
 SensorFormat.falling="";
+SensorFormat.mode_step="";
+SensorFormat.target_p="";
+
+const DynamicModeStepStr=["Wait_Patient","Find_Min_Distance","Start_Find_Pressure_A","Inflate_A","Keep_A","Start_Find_Pressure_B","Inflate_B","Keep_B","Exit"];
+const StaticcModeStepStr=["Wait_Patient","Find_Min_Distance","Inflate_To_Pressure","Inflate_To_Height","Re_Deflate"];
+const InitialModeStepStr=["Inflate_A","Inflate_AB","Retry","Check_Distance","Deflate"]
 
 SensorFormat.init=function (mac) {
     //var name = mac.replace(':','');
@@ -91,20 +97,26 @@ SensorFormat.parser=function(data) {
                 SensorFormat.mode="Power Off ";
                 break;
             case 1:
-                SensorFormat.mode="Initialize ";
+                SensorFormat.mode="Initialize_";
+                SensorFormat.mode+=InitialModeStepStr[data.mode_step]+" ";
                 break;
             case 2:
                 SensorFormat.mode="Ready ";
                 break;
             case 3:
-                SensorFormat.mode="Patient On ";
+                SensorFormat.mode="Patient_On ";
                 break;
             case 4:
-                SensorFormat.mode="Dynamic ";
+                SensorFormat.mode="Dynamic_";
+                SensorFormat.mode+=DynamicModeStepStr[data.mode_step];
+                if (data.target_p !==0) {
+                    SensorFormat.mode+="_"+data.target_p+" ";
+                }
                 // To Do, sub mode description
                 break;
             case 5:
                 SensorFormat.mode="Static ";
+                SensorFormat.mode+=InitialModeStepStr[data.mode_step]+" ";
                 // To Do, sub mode description
                 break;
             case 6:
@@ -236,7 +248,7 @@ SensorFormat.parser=function(data) {
     SensorFormat.pb+SensorFormat.Bmin+SensorFormat.Bminid+SensorFormat.cell17_min+
     SensorFormat.pva+SensorFormat.pvb+SensorFormat.nva+SensorFormat.nvb+
     SensorFormat.rotor_num+SensorFormat.pump+SensorFormat.upright+SensorFormat.position+
-    SensorFormat.reposition+SensorFormat.envelope+SensorFormat.alarm+SensorFormat.mode;
+    SensorFormat.reposition+SensorFormat.envelope+SensorFormat.alarm+SensorFormat.mode+data.falling_risk;
    //console.log(msg);
     //console.log("device_log file :"+device_log.filename);
     device_log.write(msg,device_log.filename);

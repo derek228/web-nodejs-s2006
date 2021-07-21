@@ -29,13 +29,16 @@ var custom_port=8001;
 var server = http.createServer(function(request, response) {
   var hostname='http://localhost:'+custom_port+request.url;
   var myURL= new URL(hostname);
+  console.log(myURL+" === "+hostname);
   //var myURL= new URL("http://localhost:8003"+request.url);
   var path =myURL.pathname;
   console.log("REQUEST"+request.url);
   console.log(__dirname + path);
+  var ftpPath=__dirname+'/..'+path;
+  console.log("FTP : "+ftpPath);
   switch (path) {
     case '/':
-      util.listFiles(ftpURL, response,custom_port) ;
+      util.listFiles(ftpPath, response,custom_port) ;
       //console.log(path);
       //response.writeHead(200, {'Content-Type': 'text/html'});
       //response.write('Hello, World.');
