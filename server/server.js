@@ -56,15 +56,16 @@ var server = http.createServer(function(request, response) {
          mac=myURL.searchParams.get('mac');
          file_title=myURL.searchParams.get('file');
          if (addr) {
-          if (util.checkIP(addr)==true){
+          //if (util.checkIP(addr)==true){
             addr = "mqtt://"+addr;
             s2006_mqtt.client().end  ();
+            console.log("Connect To New MQTT IP: "+addr);
             client = null;
             client=s2006_mqtt.init(addr);
-           }
-           else {
-             console.log(addr + ' Not exist');
-           }
+           //}
+           //else {
+             //console.log(addr + ' Not exist');
+           //}
          }
 
          if (mac) {

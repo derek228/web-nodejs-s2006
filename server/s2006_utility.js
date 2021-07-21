@@ -86,10 +86,10 @@ s2006_utility.checkIP= function (ip) {
     const exex = require('child_process').exec;
     exex(`ping -c 3 ${ip}`, (error, stdout, stderr)=>{
     if(error){
-      console.log('ip is inactive.');
+      console.log('ip is inactive: ' +ip);
       return false;
     }else{
-      console.log('ip is active.');
+      console.log('ip is active: '+ip);
       return true;
     }
     });
