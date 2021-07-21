@@ -45,6 +45,9 @@ SensorFormat.msg=function() {
     msg = SensorFormat.Amin
 }
 function ParserMin(sd) {
+    if (sd== undefined) {
+        return;
+    }
     let minA=255;
     let Aminid=255;
     let minB=255;
@@ -86,6 +89,12 @@ function ParserMin(sd) {
     SensorFormat.cell17_min=minB+" ";
 }
 SensorFormat.parser=function(data) {
+	var power_failure=0x1;
+	var rotor_failure=0x02;
+	var low_pressure_failure=0x04;
+	var high_pressure_failure=0x08;
+	var sensor_failure=0x10;
+	var bottoming_failure=0x20;    
     ParserMin(data.sensor_data);
     // mode string
     if (data.rotor_num==15) {
@@ -195,7 +204,9 @@ SensorFormat.parser=function(data) {
     else {
         SensorFormat.pump="On ";
     }
-    SensorFormat.upright=data.sensor_data[26]+" ";
+    if (data.sensor_data != undefined) {
+        SensorFormat.upright=data.sensor_data[26]+" ";
+    }
 
 
 	switch (data.status) {
@@ -218,26 +229,27 @@ SensorFormat.parser=function(data) {
     SensorFormat.reposition=data.reposition_time+" ";
     SensorFormat.envelope=data.envelopment_rate+" ";
     SensorFormat.falling=data.falling_risk+" ";
+    var fail_str='';
     if (data.failure_code===0) {
         fail_str = "None ";
     }
     else {
-        if (f & power_failure) {
+        if (data.failure_code & power_failure) {
             fail_str+="Power, "
         }
-        if (f & rotor_failure) {
+        if (data.failure_code & rotor_failure) {
             fail_str+="Rotor Valve, "
         }
-        if (f & low_pressure_failure) {
+        if (data.failure_code & low_pressure_failure) {
             fail_str+="Low Pressure, "
         }
-        if (f & high_pressure_failure) {
+        if (data.failure_code & high_pressure_failure) {
             fail_str+="High Pressure, "
         }
-        if (f & sensor_failure) {
+        if (data.failure_code & sensor_failure) {
             fail_str+="Sensor, "
         }
-        if (f & bottoming_failure) {
+        if (data.failure_code & bottoming_failure) {
             fail_str+="Bottoming, "
         }
         fail_str+="Failure "

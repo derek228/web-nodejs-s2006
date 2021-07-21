@@ -501,7 +501,7 @@ function ShowMode(mode,step,p) {
 //function show_failure(num) {
 function show_failure(f) {
 	var power_failure=0x1;
-	var rotro_failure=0x02;
+	var rotor_failure=0x02;
 	var low_pressure_failure=0x04;
 	var high_pressure_failure=0x08;
 	var sensor_failure=0x10;
