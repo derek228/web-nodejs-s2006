@@ -10,12 +10,17 @@ function html_page(host, req_url, lsof) {//this is a Function declarations can b
   
     templete = (host, req_url, file) => {// the above is a Function expressions cannot be called before it is defined
       return `<a href="${host}${encodeURI(req_url)}${req_url.slice(-1) == '/' ? '' : '/'}${encodeURI(file)}">${file}</a>`; }
-  
+    //console.log("TEMP:"+ templete);
+
     // Add all the links to the files and folder in requested directory
     lsof.forEach(file => {
+//        console.log("Host:"+host);
+        //console.log("URL:"+req_url);
+        //console.log("file:"+file);
+
       list.push(templete(host, req_url, file));
     });
-  
+  //console.log(list);
     return `
   <!DOCTYPE html>
   <html lang="en">
@@ -32,7 +37,9 @@ function html_page(host, req_url, lsof) {//this is a Function declarations can b
 }
 
 s2006_utility.listFiles=function (path,res,port) {
-  stats = fs.statSync(path);
+    //console.log("UTIL:" +path);
+    try {
+        stats = fs.statSync(path);
   if (stats.isFile()) {
     buffer = fs.createReadStream(path);
     buffer.on('open', () => buffer.pipe(res));
@@ -41,14 +48,21 @@ s2006_utility.listFiles=function (path,res,port) {
   if (stats.isDirectory()) {
     //Get list of files and folder in requested directory
     lsof = fs.readdirSync(path, {encoding:'utf8', withFileTypes:false});
-    console.log(lsof);
+    //console.log(lsof);
     // make an html page with the list of files and send to browser
     res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
-    local = "http://localhost:"+port;
-    console.log(local);
+    local = port; //"http://localhost:"+port;
+    //console.log(local);
     res.end(html_page(local, path, lsof));
 //    res.end(html_page("http://localhost:8001", path, lsof));
 //    res.end(html_page(`http://${hostname}:${port}`, path, lsof));
+  }
+}
+  catch(err){
+    //res.writeHead(404);
+    //res.end(err);
+  console.error(err);
+    //return;
   }
 }
 

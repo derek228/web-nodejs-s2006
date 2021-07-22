@@ -433,12 +433,13 @@ ctx.innerHTML=pressure;
 
 // rotor valve number
 var ctx = document.getElementById("rotor_num");
-ctx.innerHTML=rotor_num;
 if (rotor_num >14) {
 	ctx.style.backgroundColor="red"
+	ctx.innerHTML="Busy";
 }
 else {
 	ctx.style.backgroundColor="white"
+	ctx.innerHTML=rotor_num;
 }
 
 // pump
