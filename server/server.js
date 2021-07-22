@@ -15,6 +15,7 @@ var addr=null;
 var filterMAC='';
 var file_title='';
 var custom_port=8001;
+var server_log_en=0;
 //function custom_port_parser() {
 	if (process.argv.length>2) {
 		custom_port=Number(process.argv[2]);
@@ -72,7 +73,9 @@ var server = http.createServer(function(request, response) {
            if (mac.length===17) {
             filterMAC=mac;
             console.log('MAC : '+filterMAC+" length="+mac.length);
-            sf.init(mac);
+            if (server_log_en===1){
+              sf.init(mac);
+            }
            }
            else {
              console.log("[ERROR]: Wrong MAC address format");
@@ -80,7 +83,9 @@ var server = http.createServer(function(request, response) {
          }
 
          if (file_title) {
-           log.init(file_title);
+           if (server_log_en === 1) {
+            log.init(file_title);
+           }
          }
          else {
            console.log("No file name title define");
