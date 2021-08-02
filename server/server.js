@@ -158,16 +158,16 @@ io.on('connection',(socket) => {
     json=JSON.parse(data);
     json.time=util.getTime();
     //console.log(json);
-    sf.parser(json);
     if (filterMAC) {
       if  (json.mac_address == filterMAC){
-        //console.log('======================= Get Sensor Data From MQTT '+filterMAC+'=========================' + data.length);
+        sf.parser(json);
+        console.log('======================= Get Sensor Data From MQTT '+filterMAC+'=========================' + json.time);
         socket.emit('message', {'message': data});
         log.write(JSON.stringify(json),log.filename);
         //log_to_file(JSON.stringify(json));
       }
       else {
-        console.log('====Wrong MAC filter type=====' + data.length);
+        console.log('Device MAC:' +json.mac_address+ ' ( != )  ' +'Filter MAC'+  filterMAC+ '  == Data Length ==  ' + data.length);
       }
     }
     else {
