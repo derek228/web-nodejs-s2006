@@ -1,0 +1,43 @@
+   <!--label for="file">Select a file:</label>
+    <input type="file" id="file" style="display:none" onchange="handleFiles(this.files)">
+    <a href="#" id="fileSelect">Select some files</a>
+    <input type="file" name="file" id="file" /-->
+ 
+<html>
+  <head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	<meta http-equiv="origin-trial" content="TOKEN_GOES_HERE">
+    <script type="text/javascript" src="./sensor.js"> </script>
+    <script type="text/javascript" src="./chart.js"> </script>
+    <script type="text/javascript" src="./chart_data_parse.js"> </script>
+</head>
+  <body>
+    <input type="file" name="file" id="file" />
+    <button id="next" type="button" onclick="ShowNext();" > +1 </button>
+    <!--button id="next" type="button" onclick="ShowNext();" > +10 </button>
+    <button id="next" type="button" onclick="ShowNext();" > +100 </button>
+    <button id="previous" type="button" onclick="ShowPrevious();" > -100 </button>
+    <button id="previous" type="button" onclick="ShowPrevious();" > -10 </button-->
+    <button id="previous" type="button" onclick="ShowPrevious();" > -1 </button>
+    <input id="cusTime" placeholder="0:0:0" maxlength=8 size=8 type="text" name="Custom Time"/>
+    <button type="button" onclick="SetTime();" > Set Time </button>
+    <h2>Mattress: <em id="mattress">  Default  </em> --- Re-Position: <em id="reposition">  0  </em></h2> 
+	<!--h2> Mode:<em id="mode"> Unknow</em></h2-->
+	<h2 > <canvas id="map" style="float:left" width="200" height="300"></canvas>  Failure: <em id="failure">  None  </em> --- Mode:<em id="mode"> Unknow</em></h2>
+	<h2><em id="position">  Empty  </em> , Env: <em id="envelop">  0 </em> </h2> 
+	<h2>Pump: <em id="pump">  Off  </em>, Rotor:  <em id="rotor_num">  0  </em></h2> 
+	<h2>Falling: <em id="falling">  0 </em> ,  <em id="upright"> 0 </em> </h2>
+    <!--h2>Re-Position: <em id="reposition">  0  </em></h2--> 
+	<h2>Pressure:  <em id="pressure">  0 </em> </h2> 
+	<h2>VibrateA:<em id="pva">  0 </em> / <em id="nva">  0 </em>, <em id="ina">  Keep </em></h2> 
+	<h2>VibrateB:<em id="pvb">  0 </em> / <em id="nvb">  0 </em>, <em id="inb">  Keep </em></h2>
+	<!--button id="stop" type="button" onclick="stopTimer();" > Stop </button--> 	
+	<h2> Time: <em id="curtime" style="display: inline;"> 00:00:00  </em></h2> 
+    <script type="text/javascript" src="./analysis.js"> </script>
+    <canvas id="chartP" width="400" height="200"></canvas>
+    <script type="text/javascript" src="./chart_pressure.js"> </script>
+
+</body>
+</html>
+

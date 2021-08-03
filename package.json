@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server/server.js",
-  "bin":"server/server.js",
+  "bin": "server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,7 +17,11 @@
     "socket.io": "^4.1.2"
   },
   "pkg": {
-    "script": ["./client/**/*.js"],
-    "assets": ["./client/**/*"]
+    "script": [
+      "./client/**/*.js"
+    ],
+    "assets": [
+      "./client/**/*"
+    ]
   }
 }
