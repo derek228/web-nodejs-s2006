@@ -508,29 +508,33 @@ function show_failure(f) {
 	var sensor_failure=0x10;
 	var bottoming_failure=0x20;
 	var fail_str='';
-	if (f===0) {
+	console.log("Failure = "+f);
+
+	if (f.length===0) {
 		var ctx = document.getElementById("failure");
 		ctx.innerHTML='None';
 		ctx.style.backgroundColor='green';
 	}
 	else {
-		if (f & power_failure) {
+        for (let i=0;i<f.length;i++) {
+			if (f[i] ===1) { //& power_failure) {
 			fail_str+="Power, "
-		}
-		if (f & rotor_failure) {
-			fail_str+="Rotor Valve, "
-		}
-		if (f & low_pressure_failure) {
-			fail_str+="Low Pressure, "
-		}
-		if (f & high_pressure_failure) {
-			fail_str+="High Pressure, "
-		}
-		if (f & sensor_failure) {
-			fail_str+="Sensor, "
-		}
-		if (f & bottoming_failure) {
-			fail_str+="Bottoming, "
+			}
+			else if (f[i] ===2) { //& rotor_failure) {
+				fail_str+="Rotor Valve, "
+			}
+			else if (f[i] ===3) { //& low_pressure_failure) {
+				fail_str+="Low Pressure, "
+			}
+			else if (f[i] ===4) {//& high_pressure_failure) {
+				fail_str+="High Pressure, "
+			}
+			else if (f[i] ===5){//& sensor_failure) {
+				fail_str+="Sensor, "
+			}
+			else if (f[i] ===6){ // & bottoming_failure) {
+				fail_str+="Bottoming, "
+			}
 		}
 		var ctx = document.getElementById("failure");
 		ctx.innerHTML=fail_str;

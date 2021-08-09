@@ -11,11 +11,23 @@ document.getElementById('file').onchange = function(){
     reader.onload = function(progressEvent){
       //console.log(this.result);
       lines = this.result.split('\n');
-      chartParse(lines,0);
-      drawPressure(lines);
       console.log("Load file done, Total Data = "+lines.length);
+      mqtt=JSON.parse(lines[line])
+      show_failure(mqtt.failure_code);
+      if (mqtt.failure_code & 0x01) {
+        console.log("Power Failure");
+      }
+      else {
+        normal_show(mqtt);
+      }
+    
+      console.log("Data Parse");
+      chartParse(lines,0);
+      console.log("Show Chart");
+      drawPressure();
     };
     reader.readAsText(file);
+    console.log("Start Read file :"+file);
   };
 
 function ShowNext() {
@@ -25,8 +37,8 @@ function ShowNext() {
   else {
     return;
   }
-  chartParse(lines,line);
-  //drawUpdate();
+  chartParseInterval(lines,line);
+  drawPressure();
 //console.log(line+": "+lines[line]);
   mqtt=JSON.parse(lines[line])
   show_failure(mqtt.failure_code);
@@ -53,8 +65,8 @@ function ShowPrevious (){
   else {
     return;
   }
-  chartParse(lines,line);
-  //drawUpdate();
+  chartParseInterval(lines,line);
+  drawPressure();
   //console.log(line+": "+lines[line]);
   mqtt=JSON.parse(lines[line])
   show_failure(mqtt.failure_code);
@@ -85,8 +97,8 @@ function SetTime() {
   }
   else {
     console.log(line+": "+lines[line]);
-    chartParse(lines,line);
-    //drawUpdate();
+    chartParseInterval(lines,line);
+    drawPressure();
     mqtt=JSON.parse(lines[line])
     show_failure(mqtt.failure_code);
     if (mqtt.failure_code & 0x01) {

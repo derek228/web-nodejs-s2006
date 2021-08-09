@@ -35,8 +35,10 @@
 	<!--button id="stop" type="button" onclick="stopTimer();" > Stop </button--> 	
 	<h2> Time: <em id="curtime" style="display: inline;"> 00:00:00  </em></h2> 
     <script type="text/javascript" src="./analysis.js"> </script>
-    <canvas id="chartP" width="400" height="200"></canvas>
-    <script type="text/javascript" src="./chart_pressure.js"> </script>
+    <canvas id="chartarea" width="400" height="200"></canvas>
+    <script type="text/javascript" src="./draw_chart.js"> </script>
+    <!--script type="text/javascript" src="./chart_pressure.js"> </script-->
+    <button id="reflash" type="button" onclick="drawUpdate();" > Reflash </button> 	
 
 </body>
 </html>

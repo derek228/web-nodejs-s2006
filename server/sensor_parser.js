@@ -230,28 +230,33 @@ SensorFormat.parser=function(data) {
     SensorFormat.envelope=data.envelopment_rate+" ";
     SensorFormat.falling=data.falling_risk+" ";
     var fail_str='';
-    if (data.failure_code===0) {
+    //console.log(data.failure_code);
+    //console.log(data.failure_code.length);
+    if ((data.failure_code.length==0) ) {
+        //console.log("No Failure...");
         fail_str = "None ";
     }
     else {
-        if (data.failure_code & power_failure) {
-            fail_str+="Power, "
-        }
-        if (data.failure_code & rotor_failure) {
-            fail_str+="Rotor Valve, "
-        }
-        if (data.failure_code & low_pressure_failure) {
-            fail_str+="Low Pressure, "
-        }
-        if (data.failure_code & high_pressure_failure) {
-            fail_str+="High Pressure, "
-        }
-        if (data.failure_code & sensor_failure) {
-            fail_str+="Sensor, "
-        }
-        if (data.failure_code & bottoming_failure) {
-            fail_str+="Bottoming, "
-        }
+        for (let f=0;f<data.failure_code.length;f++) {
+            if (data.failure_code[f]===1){ //} & power_failure) {
+                fail_str+="Power, "
+            }
+            else if (data.failure_code[f]===2){ // } & rotor_failure) {
+                fail_str+="Rotor Valve, "
+            }
+            else if (data.failure_code[f]===3){ //} & low_pressure_failure) {
+                fail_str+="Low Pressure, "
+            }
+            else if (data.failure_code[f]===4 ) {//} & high_pressure_failure) {
+                fail_str+="High Pressure, "
+            }
+            else if (data.failure_code[f]===5) { // } & sensor_failure) {
+                fail_str+="Sensor, "
+            }
+            else if (data.failure_code[f] ===6) { // & bottoming_failure) {
+                fail_str+="Bottoming, "
+            }
+        }   
         fail_str+="Failure "
     }
     SensorFormat.alarm=fail_str;

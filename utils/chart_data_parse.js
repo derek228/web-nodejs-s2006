@@ -129,12 +129,12 @@ function chartParseInterval(ln,s) {
         parsePressure(json.rotor_num, json.pressure);
         ParserMin(json);
     }
-    console.log(logTime);
-    console.log(pA);
-    console.log(pB);
-    console.log(minA);
-    console.log(minB);
-    console.log(vibrate);
+    //console.log(logTime);
+    //console.log(pA);
+    //console.log(pB);
+    //console.log(minA);
+    //console.log(minB);
+    //console.log(vibrate);
 }
 
 
