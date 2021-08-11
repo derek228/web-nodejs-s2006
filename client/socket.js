@@ -10,8 +10,7 @@ function socket_load() {
 		var msg=document.getElementById("message");
 		msg.innerText=mqtt.sensor_data;
 		*/
-		show_failure(mqtt.failure_code);
-		if (mqtt.failure_code & 0x01) {
+		if (show_failure(mqtt.failure_code)===1) {
 			console.log("Power Failure");
 		}
 		else {

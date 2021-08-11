@@ -508,6 +508,7 @@ function show_failure(f) {
 	var sensor_failure=0x10;
 	var bottoming_failure=0x20;
 	var fail_str='';
+	var pwr_f = 0;
 	console.log("Failure = "+f);
 
 	if (f.length===0) {
@@ -519,6 +520,7 @@ function show_failure(f) {
         for (let i=0;i<f.length;i++) {
 			if (f[i] ===1) { //& power_failure) {
 			fail_str+="Power, "
+			pwr_f=1;
 			}
 			else if (f[i] ===2) { //& rotor_failure) {
 				fail_str+="Rotor Valve, "
@@ -539,7 +541,7 @@ function show_failure(f) {
 		var ctx = document.getElementById("failure");
 		ctx.innerHTML=fail_str;
 		ctx.style.backgroundColor='red';
-	
+		return pwr_f;
 	}
 /*	switch (num) {
 		case 0: // clear failure
