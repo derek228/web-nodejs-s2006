@@ -225,29 +225,13 @@ function power_failure(failure) {
 		ctx.style.backgroundColor="#1D8348"; // Green
 	}
 }
-var fallcnt=0;
 function falling(val) {
 	var ctx = document.getElementById("falling");
 	ctx.innerHTML=val;//str;
 	if (val >=50) {
-		if (fallcnt===0) {
-			fallcnt = fallcnt+1;
-		const audio = document.getElementById("fall");
-		audio.currentTime=0;
-		audio.muted=false;
-		//audio.src=path;
-		audio.play();
-		}
-		else {
-			fallcnt=fallcnt+1;
-			if (fallcnt>=6) {
-				fallcnt=0;
-			}
-		}
 		ctx.style.backgroundColor='red';
 	}
 	else {
-		fallcnt = 0;
 		ctx.style.backgroundColor='#21618C'; // blue
 	}
 }
