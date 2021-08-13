@@ -501,40 +501,45 @@ function ShowMode(mode,step,p) {
 function show_failure(f) {
 	var power_failure=0x1;
 	var rotor_failure=0x02;
-	var low_pressure_failure=0x04;
-	var high_pressure_failure=0x08;
-	var sensor_failure=0x10;
-	var bottoming_failure=0x20;
+	var low_pressure_failure=0x03;
+	var high_pressure_failure=0x04;
+	var sensor_failure=0x5;
+	var bottoming_failure=0x6;
 	var fail_str='';
-	if (f===0) {
+	var fail_pwr=0;
+	if (f.length===0) {
 		var ctx = document.getElementById("failure");
 		ctx.innerHTML='None';
 		ctx.style.backgroundColor='green';
 	}
 	else {
-		if (f & power_failure) {
-			fail_str+="Power, "
-		}
-		if (f & rotor_failure) {
-			fail_str+="Rotor Valve, "
-		}
-		if (f & low_pressure_failure) {
-			fail_str+="Low Pressure, "
-		}
-		if (f & high_pressure_failure) {
-			fail_str+="High Pressure, "
-		}
-		if (f & sensor_failure) {
-			fail_str+="Sensor, "
-		}
-		if (f & bottoming_failure) {
-			fail_str+="Bottoming, "
+		for(let i=0;i<f.lentgh;i++) {
+			if (f[i] === power_failure) {
+				fail_str+="Power, "
+				fail_pwr=1;
+			}
+			else if (f[i] === rotor_failure) {
+				fail_str+="Rotor Valve, "
+			}
+			else if (f[i] === low_pressure_failure) {
+				fail_str+="Low Pressure, "
+			}
+			else if (f[i] === high_pressure_failure) {
+				fail_str+="High Pressure, "
+			}
+			else if (f[i] === sensor_failure) {
+				fail_str+="Sensor, "
+			}
+			else if (f[i] === bottoming_failure) {
+				fail_str+="Bottoming, "
+			}
 		}
 		var ctx = document.getElementById("failure");
 		ctx.innerHTML=fail_str;
 		ctx.style.backgroundColor='red';
 	
 	}
+	return fail_pwr;
 }
 function showTime(t) {
 	var ctx = document.getElementById("curtime");

@@ -3,6 +3,7 @@ var lines="";
 var line = 0;
 var pressure;
 var time;
+var cur_time='';
 document.getElementById('file').onchange = function(){
     var file = this.files[0];
     line=0;
@@ -13,34 +14,48 @@ document.getElementById('file').onchange = function(){
       lines = this.result.split('\n');
       console.log("Load file done, Total Data = "+lines.length);
       mqtt=JSON.parse(lines[line])
-      show_failure(mqtt.failure_code);
-      if (mqtt.failure_code & 0x01) {
+      cur_time = mqtt.time;
+      //show_failure(mqtt.failure_code);
+      if (show_failure(mqtt.failure_code)) {
         console.log("Power Failure");
       }
       else {
         normal_show(mqtt);
       }
     
-      console.log("Data Parse");
-      chartParse(lines,0);
-      console.log("Show Chart");
-      drawPressure();
+      //console.log("Data Parse");
+      //chartParse(lines,0);
+      //console.log("Show Chart");
+      //drawPressure();
     };
     reader.readAsText(file);
     console.log("Start Read file :"+file);
   };
 
 function ShowNext() {
-  if (line<(lines.length-1)) {
+  if (line<(lines.length-2)) {
     line++;
   }
   else {
+    window.alert("No More Data");
     return;
   }
-  chartParseInterval(lines,line);
-  drawPressure();
+  //chartParseInterval(lines,line);
+  //drawPressure();
 //console.log(line+": "+lines[line]);
   mqtt=JSON.parse(lines[line])
+  while(mqtt.time===cur_time) {
+    line++;
+    if (line>lines.length-2) {
+      window.alert("No More Data")
+      cur_time = mqtt.time;
+      return;
+    }
+    else {
+      mqtt=JSON.parse(lines[line]);
+    }
+  }
+  cur_time = mqtt.time;
   show_failure(mqtt.failure_code);
   if (mqtt.failure_code & 0x01) {
     console.log("Power Failure");
@@ -63,13 +78,27 @@ function ShowPrevious (){
     line--;
   }
   else {
+    window.alert("No Prev-Data");
     return;
   }
-  chartParseInterval(lines,line);
-  drawPressure();
+  //chartParseInterval(lines,line);
+  //drawPressure();
   //console.log(line+": "+lines[line]);
   mqtt=JSON.parse(lines[line])
   show_failure(mqtt.failure_code);
+  while(mqtt.time===cur_time) {
+    line--;
+    if (line===0) {
+      window.alert("No More Data")
+      cur_time = mqtt.time;
+      return;
+    }
+    else {
+      mqtt=JSON.parse(lines[line]);
+    }
+  }
+  cur_time = mqtt.time;
+
   if (mqtt.failure_code & 0x01) {
     console.log("Power Failure");
   }
@@ -97,8 +126,8 @@ function SetTime() {
   }
   else {
     console.log(line+": "+lines[line]);
-    chartParseInterval(lines,line);
-    drawPressure();
+    //chartParseInterval(lines,line);
+    //drawPressure();
     mqtt=JSON.parse(lines[line])
     show_failure(mqtt.failure_code);
     if (mqtt.failure_code & 0x01) {
