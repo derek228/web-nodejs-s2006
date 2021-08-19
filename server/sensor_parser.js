@@ -36,9 +36,9 @@ const StaticcModeStepStr=["Wait_Patient","Find_Min_Distance","Inflate_To_Pressur
 const InitialModeStepStr=["Inflate_A","Inflate_AB","Retry","Check_Distance","Deflate"]
 
 SensorFormat.init=function (mac) {
-    //var name = mac.replace(':','');
-    //console.log(name);
-    device_log.init(mac);
+    var name = mac.replace(/:/g,'');
+    console.log(name);
+    device_log.init(name);
     console.log("Device Log created...");
 }
 SensorFormat.msg=function() {
