@@ -1,5 +1,6 @@
 var patient_status=0;
 var failure_flag=0;
+var emptyMapColor=false;
 
 function socket_load() {
 	var socket = io.connect();
@@ -42,28 +43,34 @@ function power_failure_show(data) {
 	power_failure(1);
 }
 function normal_show(data) {
-	var pathname = window.location.pathname;
-	console.log(pathname);
+	//var pathname = window.location.pathname;
+	//console.log(pathname);
 
 	if (mqtt.status !==3) {
 		sensorUpdate_color(mqtt.sensor_data);
 		sensorUpdate(mqtt.sensor_data);
 //		if (patient_status!== mqtt.status) {
 		if (patient_status=== 3) {
-			var pathname = window.location.pathname;
-			console.log(pathname);
+			//var pathname = window.location.pathname;
+			//console.log(pathname);
 			patient_status=mqtt.status;
 			playSound("hello");
 		}
 	}
 	else {
 		if (patient_status!== mqtt.status) {
-			var pathname = window.location.pathname;
-			console.log(pathname);
+			//var pathname = window.location.pathname;
+			//console.log(pathname);
 			patient_status=mqtt.status;
 			playSound("bye");
 		}
-		map_create();
+		if (emptyMapColor) {
+			sensorUpdate_color(mqtt.sensor_data);
+		}
+		else {
+			map_create();
+		}
+
 		sensorUpdate(mqtt.sensor_data);
 	}
 	upright(mqtt.sensor_data[26]);
@@ -130,4 +137,17 @@ function startTimer() {
 	//timerStart=Date.now();
 //	console.log("Timer start"+timerStart);
 
+}
+
+function enableEmptyMapColor() {
+	console.log("Color MAP", emptyMapColor);
+	var ctx = document.getElementById("mapcolor");
+	if (emptyMapColor)	{
+		ctx.innerHTML="Disable";
+		emptyMapColor=false;
+	}
+	else {
+		ctx.innerHTML="Enable";
+		emptyMapColor=true;
+	}
 }

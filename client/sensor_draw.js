@@ -43,7 +43,6 @@ var sensor_dist_map07=[10,11,12,13,14];
 var sensor_dist_map08=[ 9, 8, 7, 6, 5];
 var sensor_dist_map09=[ 0, 2, 3, 4, 0];
 var sensor_dist_map10=[ 0, 0, 1, 0, 0];
-	
 var sensor_dist_map =[	sensor_dist_map01,sensor_dist_map02,sensor_dist_map03,sensor_dist_map04,
 	sensor_dist_map05,sensor_dist_map06,sensor_dist_map07,sensor_dist_map08,sensor_dist_map09,sensor_dist_map10];
 	
@@ -123,7 +122,7 @@ function getColor(dist) {
 		return "#8a591a";//color_amber;
 	else if (dist>=75)
 		return "#b0a425";//color_yellow;
-	else if (dist>=65)
+	else if (dist>=60)
 		return "#186330";//color_green;
 	else if (dist>=45)
 		return "#294891";//color_blue;
@@ -509,7 +508,6 @@ function show_failure(f) {
 	var bottoming_failure=0x20;
 	var fail_str='';
 	var pwr_f = 0;
-	console.log("Failure = "+f);
 
 	if (f.length===0) {
 		var ctx = document.getElementById("failure");
@@ -517,7 +515,8 @@ function show_failure(f) {
 		ctx.style.backgroundColor='green';
 	}
 	else {
-        for (let i=0;i<f.length;i++) {
+	console.log("Failure = "+f);
+	for (let i=0;i<f.length;i++) {
 			if (f[i] ===1) { //& power_failure) {
 			fail_str+="Power, "
 			pwr_f=1;
