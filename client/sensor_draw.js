@@ -56,6 +56,7 @@ function remap(sensor) {
 			}
 		}
 	}
+	/*
 	for (i=1;i<10;i++) { // create visual sensor
 		for(j=0;j<5;j++) {
 			if (sensor_mux[i][j]===0) { // up and flat
@@ -87,7 +88,7 @@ function remap(sensor) {
 				cnt=0;
 			}
 		}
-	}
+	} */
 }
 
 
