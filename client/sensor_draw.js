@@ -91,9 +91,9 @@ function remap(sensor) {
 }
 
 
-function map_create() {
+function map_create(color) {
 	var ctx = document.getElementById("map").getContext('2d');
-	ctx.fillStyle="black";
+	ctx.fillStyle=color; //"black";
 	ctx.strokeRect(0, 0, canvas_width, canvas_height);
 	ctx.fillRect(0,0,canvas_width,canvas_height);
 	//console.log(sensor_pos);
@@ -117,7 +117,7 @@ function createMap() {
 }
 function getColor(dist) {
 	if (dist>=110) 
-		return 'black';
+		return "#050505";
 	else if (dist>=85)
 		return "#8a591a";//color_amber;
 	else if (dist>=75)
@@ -128,6 +128,8 @@ function getColor(dist) {
 		return "#294891";//color_blue;
 	else if (dist >=30)
 		return 'red';
+	else if (dist <=16)
+		return "#050505";
 	else
 		return 'black';
 }
@@ -146,10 +148,10 @@ function sensorUpdate(sensor) {
 		
 	}
 }
-function sensorUpdate_color(sensor) {
+function sensorUpdate_color(sensor,bkcolor) {
 	remap(sensor);
 	var ctx = document.getElementById("map").getContext('2d');
-	ctx.fillStyle="black";
+	ctx.fillStyle=bkcolor; // "black";
 	ctx.strokeRect(0, 0, canvas_width, canvas_height);
 	ctx.fillRect(0,0,canvas_width,canvas_height);
 	var w=0;
@@ -158,6 +160,13 @@ function sensorUpdate_color(sensor) {
 	for (i=0;i<10;i++) {
 		for (j=0;j<5;j++) {
 			start_color = getColor(sensor_dist_map[i][j]);
+			if (start_color != 'black') {
+				h=idH*i+map_boundary;
+				w=idW*j+map_boundary;
+				ctx.fillStyle = start_color;
+				ctx.fillRect(w,h,idW,idH);
+			}
+			/*
 			if (start_color !== "black") {
 				h=idH*i+map_boundary;
 				w=idW*j+map_boundary;
@@ -178,6 +187,7 @@ function sensorUpdate_color(sensor) {
 				ctx.fillStyle = lingrad;
 				ctx.fillRect(w,h,idW,idH);
 			}
+			*/
 		}
 	}
 }

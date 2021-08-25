@@ -1,6 +1,6 @@
 var patient_status=0;
 var failure_flag=0;
-var emptyMapColor=false;
+var emptyMapColor=true;
 
 function socket_load() {
 	var socket = io.connect();
@@ -47,7 +47,7 @@ function normal_show(data) {
 	//console.log(pathname);
 
 	if (mqtt.status !==3) {
-		sensorUpdate_color(mqtt.sensor_data);
+		sensorUpdate_color(mqtt.sensor_data, 'black');
 		sensorUpdate(mqtt.sensor_data);
 //		if (patient_status!== mqtt.status) {
 		if (patient_status=== 3) {
@@ -65,10 +65,11 @@ function normal_show(data) {
 			playSound("bye");
 		}
 		if (emptyMapColor) {
-			sensorUpdate_color(mqtt.sensor_data);
+			map_create('white');
+			sensorUpdate_color(mqtt.sensor_data, 'gray');
 		}
 		else {
-			map_create();
+			map_create('black');
 		}
 
 		sensorUpdate(mqtt.sensor_data);
