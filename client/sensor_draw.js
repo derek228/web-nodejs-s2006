@@ -1,7 +1,8 @@
-const color_amber='#F08000'
-const color_yellow='#F0F000'
-const color_green='#20F000'
-const color_blue='#0090F0'
+const color_amber='#00B0F0'  //'#F08000'
+const color_yellow='#00B050' //#F0F000'
+const color_green='#FFDC2F' //#20F000'
+const color_blue= '#FF8C00' //#0090F0'
+const color_red = '#FF0000'
 const canvas_width = 200;//400;
 const canvas_height = 300;//600;
 const mapW=150;//300;//+map_boundary*2;
@@ -120,13 +121,13 @@ function getColor(dist) {
 	if (dist>=110) 
 		return "#050505";
 	else if (dist>=85)
-		return "#8a591a";//color_amber;
+		return color_amber;
 	else if (dist>=75)
-		return "#b0a425";//color_yellow;
+		return color_yellow;
 	else if (dist>=60)
-		return "#186330";//color_green;
+		return color_green;
 	else if (dist>=45)
-		return "#294891";//color_blue;
+		return color_blue;
 	else if (dist >=30)
 		return 'red';
 	else if (dist <=16)
