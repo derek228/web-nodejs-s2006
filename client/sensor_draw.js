@@ -1,7 +1,7 @@
-const color_amber='#00B0F0'  //'#F08000'
+const color_amber='#0070C0' //#00B0F0'  //'#F08000'
 const color_yellow='#00B050' //#F0F000'
-const color_green='#FFDC2F' //#20F000'
-const color_blue= '#FF8C00' //#0090F0'
+const color_green='#DCB700'//#FFDC2F' //#20F000'
+const color_blue= '#FC6104' // '#FF8C00' //#0090F0'
 const color_red = '#FF0000'
 const canvas_width = 200;//400;
 const canvas_height = 300;//600;
