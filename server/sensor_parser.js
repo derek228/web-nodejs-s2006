@@ -32,7 +32,7 @@ SensorFormat.mode_step="";
 SensorFormat.target_p="";
 
 const DynamicModeStepStr=["Wait_Patient","Find_Min_Distance","Start_Find_Pressure_A","Inflate_A","Keep_A","Start_Find_Pressure_B","Inflate_B","Keep_B","Exit"];
-const StaticcModeStepStr=["Wait_Patient","Find_Min_Distance","Inflate_To_Pressure","Inflate_To_Height","Re_Deflate"];
+const StaticcModeStepStr=["Wait_Patient","Find_Min_Distance","Inflate_To_Pressure","Inflate_To_Height","Re_Deflate","Exit_From_Dynamic"];
 const InitialModeStepStr=["Inflate_A","Inflate_AB","Retry","Check_Distance","Deflate"]
 
 SensorFormat.init=function (mac) {
@@ -103,7 +103,7 @@ SensorFormat.parser=function(data) {
     else {
         switch (data.mode)	{
             case 0:
-                SensorFormat.mode="Power Off ";
+                SensorFormat.mode="Power_Off ";
                 break;
             case 1:
                 SensorFormat.mode="Initialize_";
@@ -124,8 +124,8 @@ SensorFormat.parser=function(data) {
                 // To Do, sub mode description
                 break;
             case 5:
-                SensorFormat.mode="Static ";
-                SensorFormat.mode+=InitialModeStepStr[data.mode_step]+" ";
+                SensorFormat.mode="Static_";
+                SensorFormat.mode+=StaticcModeStepStr[data.mode_step]+" ";
                 // To Do, sub mode description
                 break;
             case 6:
@@ -228,7 +228,7 @@ SensorFormat.parser=function(data) {
 
     SensorFormat.reposition=data.reposition_time+" ";
     SensorFormat.envelope=data.envelopment_rate+" ";
-    SensorFormat.falling=data.falling_risk+" ";
+    SensorFormat.falling=" "+data.falling_risk+" ";
     var fail_str='';
     //console.log(data.failure_code);
     //console.log(data.failure_code.length);

@@ -467,7 +467,7 @@ else {
 }
 function ShowMode(mode,step,p) {
 	const DynamicModeStepStr=["Wait_Patient","Find_Min_Distance","Start_Find_Pressure_A","Inflate_A","Keep_A","Start_Find_Pressure_B","Inflate_B","Keep_B","Exit"];
-	const StaticModeStepStr=["Wait_Patient","Find_Min_Distance","Inflate_To_Pressure","Inflate_To_Height","Re_Deflate"];
+	const StaticModeStepStr=["Wait_Patient","Find_Min_Distance","Inflate_To_Pressure","Inflate_To_Height","Re_Deflate","Exit_From_Dynamic"];
 	const InitialModeStepStr=["Inflate_A","Inflate_AB","Retry","Check_Distance","Deflate"]
 	
 	var ctx = document.getElementById("mode");

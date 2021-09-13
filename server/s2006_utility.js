@@ -71,12 +71,22 @@ s2006_utility.getTime=function () {
     var dd = new Date(d);
     var dateStr=dd.getHours()+'_'+dd.getMinutes()+'_'+dd.getSeconds();
 //    var dateStr=dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds()+':'+dd.getMilliseconds();
-    var log_path='';
+    //var log_path='';
   //  var dateStr=dd.getFullYear()+'-'+dd.getMonth()+'-'+dd.getDate()+'_'+dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds();
     //console.log(dateStr);
     return dateStr;    
 }
 
+s2006_utility.curTime=function () {
+  var d = Date.now();
+  var dd = new Date(d);
+  //var dateStr=dd.getHours()+'_'+dd.getMinutes()+'_'+dd.getSeconds();
+  var dateStr=dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds();
+  //var log_path='';
+//  var dateStr=dd.getFullYear()+'-'+dd.getMonth()+'-'+dd.getDate()+'_'+dd.getHours()+':'+dd.getMinutes()+':'+dd.getSeconds();
+  //console.log(dateStr);
+  return dateStr;    
+}
 
 s2006_utility.getDate = function () {
     var d = Date.now();

@@ -47,13 +47,13 @@ module.exports=function() {
 			}
 		  });
 		  client.on('message', function(topic, msg,pkg) {
-			  console.log("mqtt client: ", client.options.clientID);
+			  //console.log("mqtt client: ", client.options.clientID);
 			  //console.log("Force close mqtt: ", client.nextId);
 			  //console.log("Package: ", pkg);
-			  var d = Date.now();
-			  var dd = new Date(d);
-			  var dateStr=dd.getHours()+'_'+dd.getMinutes()+'_'+dd.getSeconds();
-			  console.log(dateStr);
+			  //var d = Date.now();
+			  //var dd = new Date(d);
+			  //var dateStr=dd.getHours()+'_'+dd.getMinutes()+'_'+dd.getSeconds();
+			  //console.log(dateStr);
 			  cb(msg);
 			});
 	}

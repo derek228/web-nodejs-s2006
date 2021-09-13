@@ -131,7 +131,7 @@ let mqttDecryptData;
 function mqttMessageCb(msg) {
   data = AESCrypt.decrypt(msg);
     json=JSON.parse(data);
-    json.time=util.getTime();
+    json.time=util.curTime();
     //console.log(json);
     if (filterMAC) {
       if  (json.mac_address == filterMAC){
