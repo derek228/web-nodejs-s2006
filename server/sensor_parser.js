@@ -121,6 +121,9 @@ SensorFormat.parser=function(data) {
                 if (data.target_p !==0) {
                     SensorFormat.mode+="_"+data.target_p+" ";
                 }
+                else {
+                    SensorFormat.mode+=" ";
+                }
                 // To Do, sub mode description
                 break;
             case 5:
