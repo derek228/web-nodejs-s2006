@@ -242,22 +242,22 @@ SensorFormat.parser=function(data) {
     else {
         for (let f=0;f<data.failure_code.length;f++) {
             if (data.failure_code[f]===1){ //} & power_failure) {
-                fail_str+="Power, "
+                fail_str+="Power_"
             }
             else if (data.failure_code[f]===2){ // } & rotor_failure) {
-                fail_str+="Rotor Valve, "
+                fail_str+="Rotor Valve_"
             }
             else if (data.failure_code[f]===3){ //} & low_pressure_failure) {
-                fail_str+="Low Pressure, "
+                fail_str+="Low Pressure_"
             }
             else if (data.failure_code[f]===4 ) {//} & high_pressure_failure) {
-                fail_str+="High Pressure, "
+                fail_str+="High Pressure_"
             }
             else if (data.failure_code[f]===5) { // } & sensor_failure) {
-                fail_str+="Sensor, "
+                fail_str+="Sensor_"
             }
             else if (data.failure_code[f] ===6) { // & bottoming_failure) {
-                fail_str+="Bottoming, "
+                fail_str+="Bottoming_"
             }
         }   
         fail_str+="Failure "
